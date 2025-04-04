@@ -1,17 +1,28 @@
-Ule₈     ← ⌅(⊃(↘1)⊢|⊂:)
-UleEnc₁₆ ↚ [256 1]
+UleEnc₆₄ ↚ comptime(⇌≡ⁿ×8⇡8 2)
+
+# macro arg is **bit** size
+Neg₂! ↚ ⧈°⋯¤¤8 ⬚0↙^0⋯+1°⋯¬ ⬚0↙^0⋯
+
+ByteIsNeg ↚ ⬚0⊡7⋯
+Conv ← ⌅(
+  /+×⇌↙:⇌UleEnc₆₄⧻.
+| ⧈°⋯¤¤8 ⬚0↙64⋯)
+ConvNeg ← ⨬(
+  Conv
+| ¯+1/+×⇌↙:⇌UleEnc₆₄⧻.≡(°⋯¬⬚0↙8⋯)
+)ByteIsNeg⊢.
+
+Ule₈ ← ⌅(⊃(↘1)⊢|⊂:)
 Ule₁₆ ← ⌅(
-  ⊃(↘2|/+×UleEnc₁₆↙2)
+  ⊃(↘2|Conv↙2)
 | ⊂⊂⊃(⌊÷256|◿256):
 )
-UleEnc₃₂ ↚ [16777216 65536 256 1]
 Ule₃₂ ← ⌅(
-  ⊃(↘4|/+×UleEnc₃₂↙4)
+  ⊃(↘4|Conv↙4)
 | ⊂⊂⊃(°Ule₁₆[]⌊÷65536|°Ule₁₆[]◿65536):
 )
-UleEnc₆₄ ↚ comptime(⊂×4294967296 UleEnc₃₂UleEnc₃₂)
 Ule₆₄ ← ⌅(
-  ⊃(↘8|/+×UleEnc₆₄↙8)
+  ⊃(↘8|Conv↙8)
 | ⊂⊂⊃(°Ule₃₂[]⌊÷4294967296|°Ule₃₂[]◿4294967296):
 )
 
