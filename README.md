@@ -1,7 +1,12 @@
 # uiua-bin
 Easy binary (de-) serialization in Uiua.
 
+All (de-)serializers have a signature of `RemainingBytes Value <- Bytes`, or for the inverse: `Bytes <- Bytes Value`
+
+Example:
 ```
+B ~ "git: github.com/alex-s168/uiua-bin"
+
 |User {Id Name Pass Rank Level}
 UserBin ← (
   B~F‼ B~Ule₃₂ User~Id
