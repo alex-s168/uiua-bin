@@ -3,16 +3,20 @@ UleEnc₆₄ ↚ comptime(⇌≡ⁿ×8⇡8 2)
 IncBin ↚ ⍥¬⊂1\↧⟜⊂⊙0
 
 # macro arg is **bit** size
-Neg₂! ↚ ⇌⧈°⋯¤¤8 ⬚0↙^0 IncBin ¬ ⬚0↙^0⋯
+Neg₂! ← ⇌⧈°⋯¤¤8 ⬚0↙^0 IncBin ¬ ⬚0↙^0⋯
 
 ByteIsNeg ↚ ⬚0⊡7⋯
 Conv ↚ ⌅(
   /+×⇌↙:⇌UleEnc₆₄⧻.
 | ⧈°⋯¤¤8 ⬚0↙64⋯)
-ConvNeg ↚ ⨬(
-  Conv
-| ¯+1/+×⇌↙:⇌UleEnc₆₄⧻.≡(°⋯¬⬚0↙8⋯)
-)ByteIsNeg⊢.
+
+# macro arg is **bit** size
+ConvNeg! ↚ ⌅(
+  ⨬(Conv
+  | ¯+1/+×⇌↙:⇌UleEnc₆₄⧻.≡(°⋯¬⬚0↙8⋯)
+  )ByteIsNeg⊢.
+| ⨬(↙÷8^0°Conv)(B~Neg₂!^0⌵)<0.
+)
 
 UleConv! ↚ ⌅(
   ⊃(↘^0|Conv↙^0)
@@ -23,11 +27,26 @@ Ule₁₆ ← UleConv!2
 Ule₃₂ ← UleConv!4
 Ule₆₄ ← UleConv!8
 
-UbeConv‼ ↚ ⌅(^1⍜(↙^0)⇌|⊂:⊙(⇌°^1[]))
-Ube₈     ← UbeConv‼1Ule₈
-Ube₁₆    ← UbeConv‼2Ule₁₆
-Ube₃₂    ← UbeConv‼4Ule₃₂
-Ube₆₄    ← UbeConv‼8Ule₆₄
+IleConv! ↚ ⌅(
+  ⊃(↘^0|ConvNeg!(×8^0)↙^0)
+| ⊂⇌°ConvNeg!(×8^0):)
+
+Ile₈  ← IleConv!1
+Ile₁₆ ← IleConv!2
+Ile₃₂ ← IleConv!4
+Ile₆₄ ← IleConv!8
+
+BeConv‼ ↚ ⌅(^1⍜(↙^0)⇌|⊂:⊙(⇌°^1[]))
+
+Ube₈  ← BeConv‼1Ule₈
+Ube₁₆ ← BeConv‼2Ule₁₆
+Ube₃₂ ← BeConv‼4Ule₃₂
+Ube₆₄ ← BeConv‼8Ule₆₄
+
+Ibe₈  ← BeConv‼1Ile₈
+Ibe₁₆ ← BeConv‼2Ile₁₆
+Ibe₃₂ ← BeConv‼4Ile₃₂
+Ibe₆₄ ← BeConv‼8Ile₆₄
 
 # null terminated byte array
 NullTerm ← ⌅(
