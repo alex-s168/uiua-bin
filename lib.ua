@@ -1,42 +1,43 @@
 UleEnc₆₄ ↚ comptime(⇌≡ⁿ×8⇡8 2)
 
+IncBin ↚ ⍥¬⊂1\↧⟜⊂⊙0
+
 # macro arg is **bit** size
-Neg₂! ↚ ⧈°⋯¤¤8 ⬚0↙^0⋯+1°⋯¬ ⬚0↙^0⋯
+Neg₂! ↚ ⇌⧈°⋯¤¤8 ⬚0↙^0 IncBin ¬ ⬚0↙^0⋯
 
 ByteIsNeg ↚ ⬚0⊡7⋯
-Conv ← ⌅(
+Conv ↚ ⌅(
   /+×⇌↙:⇌UleEnc₆₄⧻.
 | ⧈°⋯¤¤8 ⬚0↙64⋯)
-ConvNeg ← ⨬(
+ConvNeg ↚ ⨬(
   Conv
 | ¯+1/+×⇌↙:⇌UleEnc₆₄⧻.≡(°⋯¬⬚0↙8⋯)
 )ByteIsNeg⊢.
 
-Ule₈ ← ⌅(⊃(↘1)⊢|⊂:)
-Ule₁₆ ← ⌅(
-  ⊃(↘2|Conv↙2)
-| ⊂⊂⊃(⌊÷256|◿256):
-)
-Ule₃₂ ← ⌅(
-  ⊃(↘4|Conv↙4)
-| ⊂⊂⊃(°Ule₁₆[]⌊÷65536|°Ule₁₆[]◿65536):
-)
-Ule₆₄ ← ⌅(
-  ⊃(↘8|Conv↙8)
-| ⊂⊂⊃(°Ule₃₂[]⌊÷4294967296|°Ule₃₂[]◿4294967296):
-)
+UleConv! ↚ ⌅(
+  ⊃(↘^0|Conv↙^0)
+| ⊂⇌↙^0°Conv:)
 
-Ube₈  ← Ule₈
-Ube₁₆ ← ⌅(Ule₁₆ ⍜(↙2)⇌|⊂:⊙(⇌°Ule₁₆[]))
-Ube₃₂ ← ⌅(Ule₃₂ ⍜(↙4)⇌|⊂:⊙(⇌°Ule₃₂[]))
-Ube₆₄ ← ⌅(Ule₆₄ ⍜(↙8)⇌|⊂:⊙(⇌°Ule₆₄[]))
+Ule₈  ← UleConv!1
+Ule₁₆ ← UleConv!2
+Ule₃₂ ← UleConv!4
+Ule₆₄ ← UleConv!8
 
+UbeConv‼ ↚ ⌅(^1⍜(↙^0)⇌|⊂:⊙(⇌°^1[]))
+Ube₈     ← UbeConv‼1Ule₈
+Ube₁₆    ← UbeConv‼2Ule₁₆
+Ube₃₂    ← UbeConv‼4Ule₃₂
+Ube₆₄    ← UbeConv‼8Ule₆₄
+
+# null terminated byte array
 NullTerm ← ⌅(
   ⊃(↘+1)↙ ⊢⊚=0.
 | ⊂⊂:0:)
 
+# null terminated utf8 string
 CStr₈ ← ⊙°utf₈ NullTerm
 
+# n padding bytes
 PaddingB! ← ⌅(↘^0|⊂↯^0 0)
 
 # applies the converter,
@@ -54,3 +55,14 @@ PadEndB‼ ← ⌅(
 F‼ ← ⌅(
   ⊙(⍜^1(∘◌):)^0
 | °^0⊙⊸^1)
+
+# fixed length bytes
+Fixed! ← ⌅(
+  ⊃(↘^0|↙^0)
+| ⊂:)
+
+# must match exactly bytes from ^0
+# example:  B~Magic!(-@0"png")
+Magic! ← ⌅(
+  ↘⧻^0
+| ⊂^0)
