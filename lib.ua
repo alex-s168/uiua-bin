@@ -3,7 +3,7 @@ UleEnc₆₄ ↚ comptime(⇌≡ⁿ×8⇡8 2)
 IncBin ↚ ⍥¬⊂1\↧⟜⊂⊙0
 
 # macro arg is **bit** size
-Neg₂! ← ⧈°⋯¤¤8 ⬚0↙^0 IncBin ¬ ⬚0↙^0⋯
+Neg₂! ↚ ⧈°⋯¤¤8 ⬚0↙^0 IncBin ¬ ⬚0↙^0⋯
 
 ByteIsNeg ↚ ⬚0⊡7⋯
 Conv ↚ ⌅(
@@ -56,7 +56,7 @@ NullTerm ← ⌅(
 # null terminated utf8 string
 CStr₈ ← ⊙°utf₈ NullTerm
 
-# n padding bytes
+# insert ^0 bytes that can be any value / padding bytes
 PaddingB! ← ⌅(↘^0|⊂↯^0 0)
 
 # applies the converter,
@@ -71,6 +71,9 @@ PadB‼ ← ⌅(
   ↘-:^0 Len!^1
 | ⊂:⊂↯:0-:^0 :⊙(UnLen!^1[]))
 
+# assign the value of parser ^0 to struct field ^1
+# 
+# you can use this in M!!
 F‼ ← ⌅(
   ⊙(⍜^1(∘◌):)^0
 | °^0⊙⊸^1)
@@ -81,22 +84,42 @@ Magic! ← ⌅(
   ⍤"magic mismatch"≍^0 ⊃↙↘⧻^0
 | ⊂^0)
 
-# first arg: parser for array len prefix
-# second arg: parser for array elem
+# parse length prefixed array.
+# 
+# first macro arg:  parser for array len prefix
+# second macro arg: parser for array elem
+# 
+# you might want to box the value of the inner parser using Map!!
 Arr‼ ← ⌅(
   ⊙⇌⍥(⊙⊂^1):^0⊙[]
 | ⊂⊙◌⊃(°^0[]⧻:)(⊂∧(⊂°^1[]):[]⇌:)
 )
 
+# parse array where length comes from somewhere else
+# 
+# first macro arg:  field getter inside M!! to use as len
+# second macro arg: parser for array elem
+# 
+# can be used in F!! like this:
+#   F!! RefArr!!MyStruct~Len Ule__8 MyStruct~Data
+# 
+# you might want to box the value of the inner parser using Map!!
+RefArr‼ ← ⌅(
+  :⍥(:⊙⊂⊙:^1:)⊙[]:⊙⊸^0
+| ⊂∧(⊂°^1[]):[]⇌:⊙(⊙(⍜^0◌:⧻).)
+)
+
 Args! ↚^ ⊂"⊢⊢"⋅repr
-Z!    ← °[°^0] ↯⊙0 Args!^0
+
+# zero-initialize struct
+Z! ← °[°^0] ↯⊙0 Args!^0
 
 # struct parser <- ZeroInit FieldSerial
 # example:
 #   HeaderBin = M!!Z!Header( F!!Ube__32 Header~Abc )
 M‼ ← ⌅(^1⊙^0|⊙◌°^1)
 
-# modify value
+# modify value after parser
 # Parser <- MapFn Parser
 Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
 
@@ -104,7 +127,6 @@ Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
   Test‼ ← ⍤""≍◌^0⍤""≍^1.°^0[].
 
   |QoiHeader {Width Height Channels Colorspace}
-
   QoiHeaderBin ← M‼Z!QoiHeader(
     Magic!(-@\0"qoif")
     F‼Ube₃₂ QoiHeader~Width
@@ -112,9 +134,16 @@ Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
     F‼Ube₈ QoiHeader~Channels
     F‼Ube₈ QoiHeader~Colorspace
   )
-
   QoiHeader 123 321 1 2
   Test‼QoiHeaderBin[113 111 105 102 123 0 0 0 65 1 0 0 1 2]
+
+  |Arr {Len Data}
+  ArrBin ← M‼Z!Arr(
+    F‼Ule₁₆ Arr~Len
+    F‼RefArr‼Arr~Len Ule₁₆ Arr~Data
+  )
+  Arr 3 [1 2 3]
+  Test‼ArrBin[0 3 0 1 0 2 0 3]
 
   [1 2 3]
   Test‼Arr‼Ule₃₂ Ule₁₆[0 0 0 3 0 1 0 2 0 3]
