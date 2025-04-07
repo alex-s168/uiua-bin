@@ -75,11 +75,6 @@ F‼ ← ⌅(
   ⊙(⍜^1(∘◌):)^0
 | °^0⊙⊸^1)
 
-# fixed length bytes
-Fixed! ← ⌅(
-  ⊃(↘^0|↙^0)
-| ⊂:)
-
 # must match exactly bytes from ^0
 # example:  B~Magic!(-@\0"png")
 Magic! ← ⌅(
