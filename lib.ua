@@ -114,7 +114,7 @@ Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
   )
 
   QoiHeader 123 321 1 2
-  Test‼QoiHeaderBin[65 63 57 54 123 0 0 0 65 1 0 0 1 2]
+  Test‼QoiHeaderBin[113 111 105 102 123 0 0 0 65 1 0 0 1 2]
 
   [1 2 3]
   Test‼Arr‼Ule₃₂ Ule₁₆[0 0 0 3 0 1 0 2 0 3]
