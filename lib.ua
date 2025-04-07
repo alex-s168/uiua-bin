@@ -15,7 +15,7 @@ ConvNeg! ↚ ⌅(
   ⨬(Conv
   | ¯+1/+×⇌↙:⇌UleEnc₆₄⧻.≡(°⋯¬⬚0↙8⋯)
   )ByteIsNeg⊢.
-| ⇌⨬(↙÷8^0°Conv)(B~Neg₂!^0⌵)<0.
+| ⇌⨬(↙÷8^0°Conv)(Neg₂!^0⌵)<0.
 )
 
 UleConv! ↚ ⌅(
@@ -110,12 +110,12 @@ Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
 
   |QoiHeader {Width Height Channels Colorspace}
 
-  QoiHeaderBin ← B~M‼B~Z!QoiHeader(
-    B~Magic!(-@0"qoif")
-    B~F‼B~Ube₃₂ QoiHeader~Width
-    B~F‼B~Ube₃₂ QoiHeader~Height
-    B~F‼B~Ube₈ QoiHeader~Channels
-    B~F‼B~Ube₈ QoiHeader~Colorspace
+  QoiHeaderBin ← M‼Z!QoiHeader(
+    Magic!(-@0"qoif")
+    F‼Ube₃₂ QoiHeader~Width
+    F‼Ube₃₂ QoiHeader~Height
+    F‼Ube₈ QoiHeader~Channels
+    F‼Ube₈ QoiHeader~Colorspace
   )
 
   QoiHeader 123 321 1 2
