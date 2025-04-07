@@ -1,10 +1,9 @@
-
 UleEnc₆₄ ↚ comptime(⇌≡ⁿ×8⇡8 2)
 
 IncBin ↚ ⍥¬⊂1\↧⟜⊂⊙0
 
 # macro arg is **bit** size
-Neg₂! ← ⇌⧈°⋯¤¤8 ⬚0↙^0 IncBin ¬ ⬚0↙^0⋯
+Neg₂! ← ⧈°⋯¤¤8 ⬚0↙^0 IncBin ¬ ⬚0↙^0⋯
 
 ByteIsNeg ↚ ⬚0⊡7⋯
 Conv ↚ ⌅(
@@ -16,7 +15,7 @@ ConvNeg! ↚ ⌅(
   ⨬(Conv
   | ¯+1/+×⇌↙:⇌UleEnc₆₄⧻.≡(°⋯¬⬚0↙8⋯)
   )ByteIsNeg⊢.
-| ⨬(↙÷8^0°Conv)(B~Neg₂!^0⌵)<0.
+| ⇌⨬(↙÷8^0°Conv)(B~Neg₂!^0⌵)<0.
 )
 
 UleConv! ↚ ⌅(
@@ -30,7 +29,7 @@ Ule₆₄ ← UleConv!8
 
 IleConv! ↚ ⌅(
   ⊃(↘^0|ConvNeg!(×8^0)↙^0)
-| ⊂⇌°ConvNeg!(×8^0):)
+| ⊂°ConvNeg!(×8^0):)
 
 Ile₈  ← IleConv!1
 Ile₁₆ ← IleConv!2
@@ -132,8 +131,20 @@ Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
   Test‼CStr₈ [72 101 108 108 111 0]
 
   10
-  Test‼Map‼(+1)Ule₁₆ [0 11]
+  Test‼Map‼(-1)Ule₁₆ [0 11]
 
   {"Hello" "World"}
   Test‼Arr‼Ule₁₆ Map‼□ CStr₈ [0 2 72 101 108 108 111 0 87 111 114 108 100 0]
+
+  10
+  Test‼Ile₁₆ [0 10]
+
+  ¯10
+  Test‼Ile₁₆ [255 246]
+
+  10
+  Test‼Ibe₁₆ [10 0]
+
+  ¯10
+  Test‼Ibe₁₆ [246 255]
 └─╴
