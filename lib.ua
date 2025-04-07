@@ -1,3 +1,4 @@
+
 UleEnc₆₄ ↚ comptime(⇌≡ⁿ×8⇡8 2)
 
 IncBin ↚ ⍥¬⊂1\↧⟜⊂⊙0
@@ -67,7 +68,7 @@ Len!   ← -:⊙⊸⧻⊙^0⧻.
 UnLen! ← ¯Len!°^0
 
 # pad output of parser ^1 to ^0 bytes with zeros
-PadEndB‼ ← ⌅(
+PadB‼ ← ⌅(
   ↘-:^0 Len!^1
 | ⊂:⊂↯:0-:^0 :⊙(UnLen!^1[]))
 
@@ -100,3 +101,39 @@ Z!    ← °[°^0] ↯⊙0 Args!^0
 # example:
 #   HeaderBin = M!!Z!Header( F!!Ube__32 Header~Abc )
 M‼ ← ⌅(^1⊙^0|⊙◌°^1)
+
+# modify value
+# Parser <- MapFn Parser
+Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
+
+┌─╴tests
+  Test‼ ← ⍤""≍◌^0⍤""≍^1.°^0[].
+
+  |QoiHeader {Width Height Channels Colorspace}
+
+  QoiHeaderBin ← B~M‼B~Z!QoiHeader(
+    B~Magic!(-@0"qoif")
+    B~F‼B~Ube₃₂ QoiHeader~Width
+    B~F‼B~Ube₃₂ QoiHeader~Height
+    B~F‼B~Ube₈ QoiHeader~Channels
+    B~F‼B~Ube₈ QoiHeader~Colorspace
+  )
+
+  QoiHeader 123 321 1 2
+  Test‼QoiHeaderBin[65 63 57 54 123 0 0 0 65 1 0 0 1 2]
+
+  [1 2 3]
+  Test‼Arr‼Ule₃₂ Ule₁₆[0 0 0 3 0 1 0 2 0 3]
+
+  [1 2 3]
+  Test‼PadB‼12 Arr‼Ule₃₂ Ule₁₆[0 0 0 3 0 1 0 2 0 3 0 0]
+
+  "Hello"
+  Test‼CStr₈ [72 101 108 108 111 0]
+
+  10
+  Test‼Map‼(+1)Ule₁₆ [0 11]
+
+  {"Hello" "World"}
+  Test‼Arr‼Ule₁₆ Map‼□ CStr₈ [0 2 72 101 108 108 111 0 87 111 114 108 100 0]
+└─╴
