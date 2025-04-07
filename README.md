@@ -7,21 +7,20 @@ Example:
 ```
 B ~ "git: github.com/alex-s168/uiua-bin"
 
-|User {Id Name Pass Rank Level}
-UserBin ← (
-  B~F‼ B~Ule₃₂ User~Id
-  B~F‼ B~CStr₈ User~Name
-  B~F‼ B~CStr₈ User~Pass
-  B~F‼ B~Ule₁₆ User~Rank
-  B~F‼ B~Ule₁₆ User~Level
+|QoiHeader {Width Height Channels Colorspace}
+
+QoiHeaderBin ← B~M‼ B~Z!QoiHeader (
+  B~Magic!(-@0"qoif")
+  B~F‼B~Ube₃₂ QoiHeader~Width
+  B~F‼B~Ube₃₂ QoiHeader~Height
+  B~F‼B~Ube₈  QoiHeader~Channels
+  B~F‼B~Ube₈  QoiHeader~Colorspace
 )
 
-# -- serialize --
-User 123 "Max" "1234" 1 4
-⊙◌°UserBin[]
-# [0 0 0 123 77 97 120 0 49 50 51 52 0 0 1 0 4]
+QoiHeader 123 321 1 2
+°QoiHeaderBin[]
+# [65 63 57 54 123 0 0 0 65 1 0 0 1 2]
 
-# -- deserialize --
-◌UserBin⊙(User 0 0 0 0 0)
-# User { Id: 123, Name: "Max", Pass: "123", Rank: 1, Level: 4 }
+# pop is used to remove remaining bytes of parser
+◌QoiHeaderBin
 ```
