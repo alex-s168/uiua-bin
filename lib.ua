@@ -81,7 +81,7 @@ Fixed! ← ⌅(
 | ⊂:)
 
 # must match exactly bytes from ^0
-# example:  B~Magic!(-@0"png")
+# example:  B~Magic!(-@\0"png")
 Magic! ← ⌅(
   ⍤"magic mismatch"≍^0 ⊃↙↘⧻^0
 | ⊂^0)
@@ -111,7 +111,7 @@ Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
   |QoiHeader {Width Height Channels Colorspace}
 
   QoiHeaderBin ← M‼Z!QoiHeader(
-    Magic!(-@0"qoif")
+    Magic!(-@\0"qoif")
     F‼Ube₃₂ QoiHeader~Width
     F‼Ube₃₂ QoiHeader~Height
     F‼Ube₈ QoiHeader~Channels
