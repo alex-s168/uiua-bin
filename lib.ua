@@ -83,5 +83,20 @@ Fixed! ← ⌅(
 # must match exactly bytes from ^0
 # example:  B~Magic!(-@0"png")
 Magic! ← ⌅(
-  ↘⧻^0
+  ⍤"magic mismatch"≍^0 ⊃↙↘⧻^0
 | ⊂^0)
+
+# first arg: parser for array len prefix
+# second arg: parser for array elem
+Arr‼ ← ⌅(
+  ⊙⇌⍥(⊙⊂^1):^0⊙[]
+| ⊂⊙◌⊃(°^0[]⧻:)(⊂∧(⊂°^1[]):[]⇌:)
+)
+
+Args! ↚^ ⊂"⊢⊢"⋅repr
+Z!    ← °[°^0] ↯⊙0 Args!^0
+
+# struct parser <- ZeroInit FieldSerial
+# example:
+#   HeaderBin = M!!Z!Header( F!!Ube__32 Header~Abc )
+M‼ ← ⌅(^1⊙^0|⊙◌°^1)
