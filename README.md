@@ -3,6 +3,8 @@ Easy binary (de-) serialization in Uiua.
 
 All (de-)serializers have a signature of `RemainingBytes Value <- Bytes`, or for the inverse: `Bytes <- Bytes Value`
 
+[Auto-generated docs](https://alex-s168.github.io/uiua-bin/)
+
 Example:
 ```
 B ~ "git: github.com/alex-s168/uiua-bin"
