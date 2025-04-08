@@ -101,7 +101,7 @@ Arr‼ ← ⌅(
 # second macro arg: parser for array elem
 #
 # can be used in F!! like this:
-#  ˙F!! RefArr!!MyStruct~Len Ule__8 MyStruct~Data
+# ˙ F!! RefArr!!MyStruct~Len Ule__8 MyStruct~Data
 #
 # you might want to box the value of the inner parser using Map!!
 RefArr‼ ← ⌅(
@@ -116,7 +116,7 @@ Z! ← °[°^0] ↯⊙0 Args!^0
 
 # struct parser <- ZeroInit FieldSerial
 # example:
-#  ˙HeaderBin = M!!Z!Header( F!!Ube__32 Header~Abc )
+# ˙ HeaderBin = M!!Z!Header( F!!Ube__32 Header~Abc )
 M‼ ← ⌅(^1⊙^0|⊙◌°^1)
 
 # modify value after parser
@@ -128,8 +128,8 @@ Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
 # can also be un-ed
 #
 # example:
-#  ˙SelectByteBits![3 3 2] [231]
-#  ˙## {[1 1 1] [0 0 1] [1 1]}
+# ˙ SelectByteBits![3 3 2] [231]
+# ˙ ## {[1 1 1] [0 0 1] [1 1]}
 SelectByteBits! ← ⌅(
   ⇌/⊂≡(⬚0↙8⋯)
   ⊕□▽°˜⊏^0
@@ -191,26 +191,54 @@ Replace ↚ (
 # invertible try
 #
 # the inverse of InvTry!(A|B|H) is:
-# ˙try(unA|unB|unH)
+# ˙ try(unA|unB|unH)
 InvTry! ←^ $"obv(_|_)":∩($"try(_)"⨬(°□◇⊢|°□/⍚$"_|_")≥2⧻.)⊸≡⍚($"un(_)")
 
 # uitl for decoding a prefixed variant
 #
 # example:
-#  ˙if u8 is 0, decode LE u16, otherwise BE u16
-#  ˙Var‼Ule₈InvTry!(
-#  ˙˙˙VarEnt‼0 Ule₁₆
-#  ˙| VarEnt‼1 Ube₁₆
-#  ˙| VarFail)
+# ˙ #if u8 is 0, decode LE u16, otherwise BE u16
+# ˙ Var‼Ule₈InvTry!(
+# ˙   VarEnt‼0 Ule₁₆
+# ˙ | VarEnt‼1 Ube₁₆
+# ˙ | VarFail)
 #
 # generated parser signature:
-#  ˙RemBytes Variant Value <= Bytes
+# ˙ RemBytes Variant Value <= Bytes
+#
+# you might want to put this into Multi!
 #
 Var‼    ← ⌅(: ^1 : ^0|°^0:°^1)
 VarEnt‼ ← ⌅(^0 ^1 °^0|^0°^1°^0:)
 
 VarFailImpl ↚ ⍤"variant match failure"0
 VarFail     ← ⌅VarFailImpl VarFailImpl
+
+# Run a parser which generates multiple outputs, and binds those to a struct
+#
+# Example:
+# ˙ Multi!(
+# ˙   Var‼Ule₈InvTry!(
+# ˙     VarEnt‼0 Ule₁₆
+# ˙   | VarEnt‼1 Ube₁₆
+# ˙   | VarFail)
+# ˙ | TestTy~Variant | TestTy~Data)
+# ˙
+Multi! ←^ (
+  ⊃(↘1)⊢ # => TOP BindAddrs Parser BOT
+
+  ⊃( # bind
+    $"dippop_"°□/⍚⊂ ≡⍚$"⊙⟜(⍜_◌:°□⊡_)":⇡⧻.
+    # apply parser
+    $"_ °□⊃⊢(↘1){_}"
+  | # code for inverse
+    °□/⍚$"_|_"
+    $"⊙⊸⊃(_)"
+    $"un(_) _":
+  )
+
+  $"obv(_|_)"
+)
 
 ┌─╴tests
   Test‼ ← ⍤""≍◌^0⍤""≍^1.°^0[].
@@ -319,4 +347,18 @@ VarFail     ← ⌅VarFailImpl VarFailImpl
   | VarFail
   )
   ⍤""≍[1 0 2]
+
+  |ATy {A Variant Data}
+  ABin ← M‼Z!ATy(
+    F‼Ule₈ ATy~A
+    Multi!(
+      Var‼Ule₈InvTry!(
+        VarEnt‼0 Ule₁₆
+      | VarEnt‼1 Ube₁₆
+      | VarFail)
+    | ATy~Variant | ATy~Data)
+  )
+
+  ATy 5 0 2
+  Test‼ABin [5 0 0 2]
 └─╴
