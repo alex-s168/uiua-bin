@@ -188,13 +188,17 @@ Replace ↚ (
   ⨬(⍜⊜∘≡⋅∘ ⊃(⊸⦷⊙⋅∘|¤⋅∘)|⋅⋅∘)
 )
 
-Cursed! ↚^ ≡⍚($"obv(_|_)" :⊸Replace"VarEnt‼" "°VarEnt‼")
+# invertible try
+#
+# the inverse of InvTry!(A|B|H) is:
+# ˙try(unA|unB|unH)
+InvTry! ←^ $"obv(_|_)":∩($"try(_)"⨬(°□◇⊢|°□/⍚$"_|_")≥2⧻.)⊸≡⍚($"un(_)")
 
 # uitl for decoding a prefixed variant
 #
 # example:
 #  ˙if u8 is 0, decode LE u16, otherwise BE u16
-#  ˙Var‼Ule₈⍣(
+#  ˙Var‼Ule₈InvTry!(
 #  ˙˙˙VarEnt‼0 Ule₁₆
 #  ˙| VarEnt‼1 Ube₁₆
 #  ˙| VarFail)
@@ -202,7 +206,7 @@ Cursed! ↚^ ≡⍚($"obv(_|_)" :⊸Replace"VarEnt‼" "°VarEnt‼")
 # generated parser signature:
 #  ˙RemBytes Variant Value <= Bytes
 #
-Var‼    ← ⌅(: ^1 : ^0|°^0:°Cursed!^1)
+Var‼    ← ⌅(: ^1 : ^0|°^0:°^1)
 VarEnt‼ ← ⌅(^0 ^1 °^0|^0°^1°^0:)
 
 VarFailImpl ↚ ⍤"variant match failure"0
@@ -294,14 +298,14 @@ VarFail     ← ⌅VarFailImpl VarFailImpl
   FloatLe!FTy₃₂
   ⍤""=∩(⁅×10000000000000) ¯4.619999885559082
 
-  {Var‼Ule₈⍣(
+  {Var‼Ule₈InvTry!(
       VarEnt‼0 Ule₁₆
     | VarEnt‼1 Ube₁₆
     | VarFail
     )[0 0 2]}
   ⍤""≍{[] 0 2}
 
-  {Var‼Ule₈⍣(
+  {Var‼Ule₈InvTry!(
       VarEnt‼0 Ule₁₆
     | VarEnt‼1 Ube₁₆
     | VarFail
@@ -309,9 +313,10 @@ VarFail     ← ⌅VarFailImpl VarFailImpl
   ⍤""≍{[] 1 512}
 
   [] 1 512
-  °Var‼Ule₈⍣(
+  °Var‼Ule₈InvTry!(
     VarEnt‼0 Ule₁₆
   | VarEnt‼1 Ube₁₆
   | VarFail
   )
+  ⍤""≍[1 0 2]
 └─╴
