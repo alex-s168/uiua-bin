@@ -26,6 +26,12 @@ QoiHeader 123 321 1 2
 ◌QoiHeaderBin
 ```
 
+## Features
+- (de-)serialization of (un-)signed little- / big- endian integers
+- de-serialization of floats (F16, F32, F64, BF16) (encoding not yet supported)
+- (de-)serialization of null-terminated strings
+- (de-)serialization of optionally length-prefixed arrays, structs, and variants
+
 ## Examples
 ### String Array
 ```
