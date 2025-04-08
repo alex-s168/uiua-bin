@@ -181,13 +181,6 @@ AMDFBe₂₄ ← BeConv‼3 AMDFLe₂₄
 # BrainFloat 16
 BFBe₁₆ ← BeConv‼2 BFLe₁₆
 
-# stolen from ekgame/uiua-essentials
-# result ? searchFor replaceWith subject
-Replace ↚ (
-  ⊃(=0⧻⋅⋅∘|⊙⊙∘)
-  ⨬(⍜⊜∘≡⋅∘ ⊃(⊸⦷⊙⋅∘|¤⋅∘)|⋅⋅∘)
-)
-
 # invertible try
 #
 # the inverse of InvTry!(A|B|H) is:
