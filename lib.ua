@@ -163,7 +163,11 @@ FloatLe! ← (
   × # sign
 )
 
-FConv‼ ← ⊃(↘^0|FloatLe!^1↙^0)
+# defines a fake un- inverse for the given function
+# this can be used to get the no inverse found error at runtime instead of compile time
+NoInv! ←^ $"obv(_|assert\"NoInv! inverse was called\"0 _)" ◇⊢: ⍥(⊂"0 "): ⍥(⊂"pop"):"" :°[⊙⊙] ⊢:
+
+FConv‼ ← NoInv!⊃(↘^0|FloatLe!^1↙^0)
 
 FLe₁₆ ← FConv‼2 FTy₁₆
 FLe₃₂ ← FConv‼4 FTy₃₂
