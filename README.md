@@ -3,8 +3,6 @@ Easy binary (de-) serialization in Uiua.
 
 All (de-)serializers have a signature of `RemainingBytes Value <- Bytes`, or for the inverse: `Bytes <- Bytes Value`
 
-[Auto-generated docs](https://alex-s168.github.io/uiua-bin/)
-
 ```
 B ~ "git: github.com/alex-s168/uiua-bin"
 
@@ -32,10 +30,12 @@ QoiHeader 123 321 1 2
 - (de-)serialization of null-terminated strings
 - (de-)serialization of optionally length-prefixed arrays, structs, and variants
 
-## Examples
+## Usage
+[Auto-generated docs](https://alex-s168.github.io/uiua-bin/)
+
 ### String Array
 ```
-~Ty {Name Members}
+~ Ty {Name Members}
 
 TyGBin ← M‼Z!Ty(
   F!!CStr__8 Ty~Name
@@ -67,3 +67,7 @@ TyBin ← M‼Z!Ty(
   | Ty~Type | Ty~Value)
 )
 ```
+
+## `NoInv!`
+When writing serializers for variants, and som variant cases only support de-serialization,
+you might want to use `NoInv! F` to not get a compile-time "No inverse found" error when un- ing the parser, and instead get a runtime error if the variant case gets matched.
