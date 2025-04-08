@@ -71,3 +71,12 @@ TyBin ← M‼Z!Ty(
 ## `NoInv!`
 When writing serializers for variants, and som variant cases only support de-serialization,
 you might want to use `NoInv! F` to not get a compile-time "No inverse found" error when un- ing the parser, and instead get a runtime error if the variant case gets matched.
+
+## modifying binary data
+Uiua provides the "under" modifier, which can be used for this:
+```
+[113 111 105 102 123 0 0 0 65 1 0 0 1 2]
+# reduce "Width" in "QoiHeader" by 10
+⍜(QoiHeader~Width◌QoiHeaderBin)(-10)
+## [113 111 105 102 113 0 0 0 65 1 0 0 1 2]
+```
