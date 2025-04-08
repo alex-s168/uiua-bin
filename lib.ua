@@ -101,7 +101,7 @@ Arr‼ ← ⌅(
 # second macro arg: parser for array elem
 #
 # can be used in F!! like this:
-#   F!! RefArr!!MyStruct~Len Ule__8 MyStruct~Data
+#  ˙F!! RefArr!!MyStruct~Len Ule__8 MyStruct~Data
 #
 # you might want to box the value of the inner parser using Map!!
 RefArr‼ ← ⌅(
@@ -116,7 +116,7 @@ Z! ← °[°^0] ↯⊙0 Args!^0
 
 # struct parser <- ZeroInit FieldSerial
 # example:
-#   HeaderBin = M!!Z!Header( F!!Ube__32 Header~Abc )
+#  ˙HeaderBin = M!!Z!Header( F!!Ube__32 Header~Abc )
 M‼ ← ⌅(^1⊙^0|⊙◌°^1)
 
 # modify value after parser
@@ -128,8 +128,8 @@ Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
 # can also be un-ed
 #
 # example:
-#   SelectByteBits![3 3 2] [231]
-#   ## {[1 1 1] [0 0 1] [1 1]}
+#  ˙SelectByteBits![3 3 2] [231]
+#  ˙## {[1 1 1] [0 0 1] [1 1]}
 SelectByteBits! ← ⌅(
   ⇌/⊂≡(⬚0↙8⋯)
   ⊕□▽°˜⊏^0
@@ -184,16 +184,17 @@ BFBe₁₆ ← BeConv‼2 BFLe₁₆
 # uitl for decoding a prefixed variant
 #
 # example:
-#   Var‼Ule₈⨬(Ule₁₆|Ube₁₆)
-#   # if the u8 is 0, decode following u16 as LE, otherwise BE
+#  ˙if u8 is 0, decode LE u16, otherwise BE u16
+#  ˙Var‼Ule₈⍣(
+#  ˙˙˙VarEnt‼0 Ule₁₆
+#  ˙| VarEnt‼1 Ube₁₆
+#  ˙| VarFail)
 #
-# example:
-#   Var‼Ule₈⍣(
-#     Ule₁₆°0
-#   | Ube₁₆°1
-#   | VarFail)
+# generated parser signature:
+# ˙ RemBytes Variant Value <= Bytes
 #
-Var‼ ← ^1 : ^0
+Var‼    ← : ^1 : ^0
+VarEnt‼ ← ^0 ^1 °^0
 
 VarFail ← ⍤"variant match failure"0
 
@@ -283,23 +284,24 @@ VarFail ← ⍤"variant match failure"0
   FloatLe!FTy₃₂
   ⍤""=∩(⁅×10000000000000) ¯4.619999885559082
 
-  {Var‼Ule₈⨬(Ule₁₆|Ube₁₆)[0 0 1]}
-  ⍤""≍{[] 1}
-
-  {Var‼Ule₈⨬(Ule₁₆|Ube₁₆)[1 0 1]}
-  ⍤""≍{[] 256}
+  {Var‼Ule₈⍣(
+      VarEnt‼0 Ule₁₆
+    | VarEnt‼1 Ube₁₆
+    | VarFail
+    )[0 0 2]}
+  ⍤""≍{[] 0 2}
 
   {Var‼Ule₈⍣(
-      Ule₁₆°0
-    | Ube₁₆°1
+      VarEnt‼0 Ule₁₆
+    | VarEnt‼1 Ube₁₆
     | VarFail
-    )[0 0 1]}
-  ⍤""≍{[] 1}
+    )[1 0 2]}
+  ⍤""≍{[] 1 512}
 
-  {Var‼Ule₈⍣(
-      Ule₁₆°0
-    | Ube₁₆°1
-    | VarFail
-    )[1 0 1]}
-  ⍤""≍{[] 256}
+  # [] 1 512
+  # °Var‼Ule₈⍣(
+  #  VarEnt‼0 Ule₁₆
+  # | VarEnt‼1 Ube₁₆
+  # | VarFail
+  # )
 └─╴
