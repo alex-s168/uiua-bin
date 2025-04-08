@@ -1,3 +1,5 @@
+C ~ "git: github.com/alex-s168/cursed-ua"
+
 UleEnc₆₄ ↚ comptime(⇌≡ⁿ×8⇡8 2)
 
 IncBin ↚ ⍥¬⊂1\↧⟜⊂⊙0
@@ -185,18 +187,12 @@ AMDFBe₂₄ ← BeConv‼3 AMDFLe₂₄
 # BrainFloat 16
 BFBe₁₆ ← BeConv‼2 BFLe₁₆
 
-# invertible try
-#
-# the inverse of InvTry!(A|B|H) is:
-# ˙ try(unA|unB|unH)
-InvTry! ←^ $"obv((_)|(_))":∩($"try(_)"⨬(°□◇⊢|°□/⍚$"_|_")≥2⧻.)⊸≡⍚($"un(_)")
-
 # decode a prefixed variant
 # parsers of variants can have any amount of outputs
 #
 # example:
 # ˙ #if u8 is 0, decode LE u16, otherwise BE u16
-# ˙ Var‼Ule₈InvTry!(
+# ˙ Var‼Ule₈C~InvTry!(
 # ˙   VarEnt‼0 Ule₁₆
 # ˙ | VarEnt‼1 Ube₁₆
 # ˙ | VarFail)
@@ -206,28 +202,29 @@ InvTry! ←^ $"obv((_)|(_))":∩($"try(_)"⨬(°□◇⊢|°□/⍚$"_|_")≥2�
 #
 # you might want to put this into Multi!
 #
-# you might want to use AutoVar!! instead
+# YOU PROBABLY WANT TO USE V!! INSTEAD
 #
 Var‼    ← ⌅(: ^1 : ^0|°^0:°^1)
 VarEnt‼ ← ⌅(^0 ^1 °^0|^0°^1°^0:)
 
-# decode a prefixed variant
-# similar to Var!!, except that it doesn't store the value tag.
-# for encoding, it figures the tag out automatically,
-# by trying all encoders.
-#
-# example:
-# ˙ F‼AutoVar‼Ule₈InvTry!(
-# ˙   AutoVarEnt‼0(Ule₁₆)
-# ˙ | AutoVarEnt‼1(Ube₁₆)
-# ˙ | VarFail
-# ˙ )BTy~Data
-# ˙
-AutoVar‼    ← ⌅(^1 : ^0|°^0:°^1)
-AutoVarEnt‼ ← ⌅(^1 °^0|^0°^1)
-
 VarFailImpl ↚ ⍤"variant match failure"0
 VarFail     ← ⌅VarFailImpl VarFailImpl
+
+EmitV ↚ $"⌅(_|_)" ⊃($"(_):(_)"|$"°(_):°(_)":) C~EmitInvTry ⊂:≡⍚$"_ pop" C~ParseMatchArms!($"⌅(_|_)" ⊃($"(_)°(_)":)$"(_)°(_)")∘ ⊃(↘1|⊢)
+
+# decode a prefixed variant
+#
+# example:
+# ˙ V!(
+# ˙   Ule₈
+# ˙ | 0 => Ule₁₆
+# ˙ | . => Ube₁₆
+# ˙ )
+#
+# the value of this parser depends on which variant is chosen
+#
+# It uses https://github.com/alex-s168/cursed-ua for parsing the match arms
+V!    ←^ EmitV
 
 # Run a parser which generates multiple outputs, and binds those to a struct
 #
@@ -341,14 +338,14 @@ Multi! ←^ (
   FloatLe!FTy₃₂
   ⍤""=∩(⁅×10000000000000) ¯4.619999885559082
 
-  {Var‼Ule₈InvTry!(
+  {Var‼Ule₈C~InvTry!(
       VarEnt‼0 Ule₁₆
     | VarEnt‼1 Ube₁₆
     | VarFail
     )[0 0 2]}
   ⍤""≍{[] 0 2}
 
-  {Var‼Ule₈InvTry!(
+  {Var‼Ule₈C~InvTry!(
       VarEnt‼0 Ule₁₆
     | VarEnt‼1 Ube₁₆
     | VarFail
@@ -356,38 +353,26 @@ Multi! ←^ (
   ⍤""≍{[] 1 512}
 
   [] 1 512
-  °Var‼Ule₈InvTry!(
+  °Var‼Ule₈C~InvTry!(
     VarEnt‼0 Ule₁₆
   | VarEnt‼1 Ube₁₆
   | VarFail
   )
   ⍤""≍[1 0 2]
 
-  |ATy {A Variant Data}
-  ABin ← M‼Z!ATy(
-    F‼Ule₈ ATy~A
-    Multi!(
-      Var‼Ule₈InvTry!(
-        VarEnt‼0(Ule₁₆)
-      | VarEnt‼1(Ube₁₆)
-      | VarFail)
-    | ATy~Variant | ATy~Data)
+  [1 0 2]
+  ◌V!(
+    Ule₈
+  | 0 => Ule₁₆
+  | . => Ube₁₆
   )
+  ⍤""≍512
 
-  ATy 5 0 2
-  Test‼ABin [5 0 0 2]
-
-  |BTy {A Data}
-  BBin ← M‼Z!BTy(
-    F‼Ule₈ BTy~A
-
-    F‼AutoVar‼Ule₈InvTry!(
-      AutoVarEnt‼0(Ule₁₆)
-    | AutoVarEnt‼1(Ube₁₆)
-    | VarFail
-    )BTy~Data
-  )
-
-  BTy 5 2
-  Test‼BBin [5 0 0 2]
+  512
+  °V!(
+    Ule₈
+  | 0 => Ule₁₆
+  | . => Ube₁₆
+  )[]
+  ⍤""≍[0 2 0]
 └─╴
