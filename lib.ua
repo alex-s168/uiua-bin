@@ -1,4 +1,4 @@
-C ~ "git: github.com/alex-s168/cursed-ua tag:v2.1.0"
+C ~ "git: github.com/alex-s168/cursed-ua branch:v2.1.0"
 
 UleEnc₆₄ ↚ comptime(⇌≡ⁿ×8⇡8 2)
 
