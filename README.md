@@ -67,11 +67,15 @@ TyBin ← M‼Z!Ty(
 )
 ```
 
-## `NoInv!`
+#### Storing the Tag
+Sometimes it is useful to store the tag of the variant as output to the parser. You can apply `B~Map‼. P` to the tag parser (where `P` is the tag parser).
+This makes your whole parser a multi-value parser (2 values). You can use [`Multi!`](#multi-value-parsers) to process the values
+
+### `NoInv!`
 When writing serializers for variants, and som variant cases only support de-serialization,
 you might want to use `NoInv! F` to not get a compile-time "No inverse found" error when un- ing the parser, and instead get a runtime error if the variant case gets matched.
 
-## modifying binary data
+### modifying binary data
 Uiua provides the "under" modifier, which can be used for this:
 ```
 [113 111 105 102 123 0 0 0 65 1 0 0 1 2]
@@ -79,3 +83,16 @@ Uiua provides the "under" modifier, which can be used for this:
 ⍜(QoiHeader~Width◌QoiHeaderBin)(-10)
 ## [113 111 105 102 113 0 0 0 65 1 0 0 1 2]
 ```
+
+
+### multi value parsers
+Parsers that return multiple values have a signature of for example `RemBytes A B ? Bytes`.
+
+To bind mutliple values of a parser to a struct, you can use `Multi!`:
+```
+Mutli!(
+  InsertMultiOutputParserHere
+| MyStruct~FieldA | MyStruct~FieldB)
+```
+
+This can be used inside `M!!`
