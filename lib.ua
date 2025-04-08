@@ -181,6 +181,15 @@ AMDFBe₂₄ ← BeConv‼3 AMDFLe₂₄
 # BrainFloat 16
 BFBe₁₆ ← BeConv‼2 BFLe₁₆
 
+# stolen from ekgame/uiua-essentials
+# result ? searchFor replaceWith subject
+Replace ↚ (
+  ⊃(=0⧻⋅⋅∘|⊙⊙∘)
+  ⨬(⍜⊜∘≡⋅∘ ⊃(⊸⦷⊙⋅∘|¤⋅∘)|⋅⋅∘)
+)
+
+Cursed! ↚^ ≡⍚($"obv(_|_)" :⊸Replace"VarEnt‼" "°VarEnt‼")
+
 # uitl for decoding a prefixed variant
 #
 # example:
@@ -191,12 +200,13 @@ BFBe₁₆ ← BeConv‼2 BFLe₁₆
 #  ˙| VarFail)
 #
 # generated parser signature:
-# ˙ RemBytes Variant Value <= Bytes
+#  ˙RemBytes Variant Value <= Bytes
 #
-Var‼    ← : ^1 : ^0
-VarEnt‼ ← ^0 ^1 °^0
+Var‼    ← ⌅(: ^1 : ^0|°^0:°Cursed!^1)
+VarEnt‼ ← ⌅(^0 ^1 °^0|^0°^1°^0:)
 
-VarFail ← ⍤"variant match failure"0
+VarFailImpl ↚ ⍤"variant match failure"0
+VarFail     ← ⌅VarFailImpl VarFailImpl
 
 ┌─╴tests
   Test‼ ← ⍤""≍◌^0⍤""≍^1.°^0[].
@@ -298,10 +308,10 @@ VarFail ← ⍤"variant match failure"0
     )[1 0 2]}
   ⍤""≍{[] 1 512}
 
-  # [] 1 512
-  # °Var‼Ule₈⍣(
-  #  VarEnt‼0 Ule₁₆
-  # | VarEnt‼1 Ube₁₆
-  # | VarFail
-  # )
+  [] 1 512
+  °Var‼Ule₈⍣(
+    VarEnt‼0 Ule₁₆
+  | VarEnt‼1 Ube₁₆
+  | VarFail
+  )
 └─╴
