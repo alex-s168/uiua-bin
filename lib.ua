@@ -206,8 +206,25 @@ InvTry! ←^ $"obv((_)|(_))":∩($"try(_)"⨬(°□◇⊢|°□/⍚$"_|_")≥2�
 #
 # you might want to put this into Multi!
 #
+# you might want to use AutoVar!! instead
+#
 Var‼    ← ⌅(: ^1 : ^0|°^0:°^1)
 VarEnt‼ ← ⌅(^0 ^1 °^0|^0°^1°^0:)
+
+# decode a prefixed variant
+# similar to Var!!, except that it doesn't store the value tag.
+# for encoding, it figures the tag out automatically,
+# by trying all encoders.
+#
+# example:
+# ˙ F‼AutoVar‼Ule₈InvTry!(
+# ˙   AutoVarEnt‼0(Ule₁₆)
+# ˙ | AutoVarEnt‼1(Ube₁₆)
+# ˙ | VarFail
+# ˙ )BTy~Data
+# ˙
+AutoVar‼    ← ⌅(^1 : ^0|°^0:°^1)
+AutoVarEnt‼ ← ⌅(^1 °^0|^0°^1)
 
 VarFailImpl ↚ ⍤"variant match failure"0
 VarFail     ← ⌅VarFailImpl VarFailImpl
@@ -359,4 +376,18 @@ Multi! ←^ (
 
   ATy 5 0 2
   Test‼ABin [5 0 0 2]
+
+  |BTy {A Data}
+  BBin ← M‼Z!BTy(
+    F‼Ule₈ BTy~A
+
+    F‼AutoVar‼Ule₈InvTry!(
+      AutoVarEnt‼0(Ule₁₆)
+    | AutoVarEnt‼1(Ube₁₆)
+    | VarFail
+    )BTy~Data
+  )
+
+  BTy 5 2
+  Test‼BBin [5 0 0 2]
 └─╴
