@@ -185,9 +185,10 @@ BFBe₁₆ ← BeConv‼2 BFLe₁₆
 #
 # the inverse of InvTry!(A|B|H) is:
 # ˙ try(unA|unB|unH)
-InvTry! ←^ $"obv(_|_)":∩($"try(_)"⨬(°□◇⊢|°□/⍚$"_|_")≥2⧻.)⊸≡⍚($"un(_)")
+InvTry! ←^ $"obv((_)|(_))":∩($"try(_)"⨬(°□◇⊢|°□/⍚$"_|_")≥2⧻.)⊸≡⍚($"un(_)")
 
-# uitl for decoding a prefixed variant
+# decode a prefixed variant
+# parsers of variants can have any amount of outputs
 #
 # example:
 # ˙ #if u8 is 0, decode LE u16, otherwise BE u16
@@ -221,16 +222,16 @@ Multi! ←^ (
   ⊃(↘1)⊢ # => TOP BindAddrs Parser BOT
 
   ⊃( # bind
-    $"dippop_"°□/⍚⊂ ≡⍚$"⊙⟜(⍜_◌:°□⊡_)":⇡⧻.
+    $"dippop(_)"°□/⍚⊂ ≡⍚$"⊙⟜(⍜(_)◌:°□⊡(_))":⇡⧻.
     # apply parser
-    $"_ °□⊃⊢(↘1){_}"
+    $"(_) °□⊃⊢(↘1){_}"
   | # code for inverse
     °□/⍚$"_|_"
     $"⊙⊸⊃(_)"
-    $"un(_) _":
+    $"un(_) (_)":
   )
 
-  $"obv(_|_)"
+  $"obv((_)|(_))"
 )
 
 ┌─╴tests
@@ -346,8 +347,8 @@ Multi! ←^ (
     F‼Ule₈ ATy~A
     Multi!(
       Var‼Ule₈InvTry!(
-        VarEnt‼0 Ule₁₆
-      | VarEnt‼1 Ube₁₆
+        VarEnt‼0(Ule₁₆)
+      | VarEnt‼1(Ube₁₆)
       | VarFail)
     | ATy~Variant | ATy~Data)
   )
