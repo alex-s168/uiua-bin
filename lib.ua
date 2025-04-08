@@ -72,7 +72,7 @@ PadB‼ ← ⌅(
 | ⊂:⊂↯:0-:^0 :⊙(UnLen!^1[]))
 
 # assign the value of parser ^0 to struct field ^1
-# 
+#
 # you can use this in M!!
 F‼ ← ⌅(
   ⊙(⍜^1(∘◌):)^0
@@ -85,10 +85,10 @@ Magic! ← ⌅(
 | ⊂^0)
 
 # parse length prefixed array.
-# 
+#
 # first macro arg:  parser for array len prefix
 # second macro arg: parser for array elem
-# 
+#
 # you might want to box the value of the inner parser using Map!!
 Arr‼ ← ⌅(
   ⊙⇌⍥(⊙⊂^1):^0⊙[]
@@ -96,13 +96,13 @@ Arr‼ ← ⌅(
 )
 
 # parse array where length comes from somewhere else
-# 
+#
 # first macro arg:  field getter inside M!! to use as len
 # second macro arg: parser for array elem
-# 
+#
 # can be used in F!! like this:
 #   F!! RefArr!!MyStruct~Len Ule__8 MyStruct~Data
-# 
+#
 # you might want to box the value of the inner parser using Map!!
 RefArr‼ ← ⌅(
   :⍥(:⊙⊂⊙:^1:)⊙[]:⊙⊸^0
@@ -122,6 +122,47 @@ M‼ ← ⌅(^1⊙^0|⊙◌°^1)
 # modify value after parser
 # Parser <- MapFn Parser
 Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
+
+# input amount of bytes has to be equal to how many bits consumed (to bytes)
+#
+# can also be un-ed
+#
+# example:
+#   SelectByteBits![3 3 2] [231]
+#   ## {[1 1 1] [0 0 1] [1 1]}
+SelectByteBits! ← ⌅(
+  ⇌/⊂≡(⬚0↙8⋯)
+  ⊕□▽°˜⊏^0
+| ⧈°⋯¤¤8/◇⊂
+)
+
+|FloatType {ExpNBits ExpBias MantNBits}
+FTy₁₆ ← FloatType 5 15 10
+FTy₃₂ ← FloatType 8 127 23
+FTy₆₄ ← FloatType 11 1023 52
+
+FloatUnPack! ↚ (
+  SelectByteBits![1 FloatType~ExpNBits^0 FloatType~MantNBits^0]
+)
+
+FloatLe! ← (
+  FloatUnPack!^0⇌
+  ⊃(×⊸⊃(/×°□⊡1|/×≠0°□⊡2)
+    ⨬(×⊸⊃(/×°□⊡1|/×=0°□⊡2)
+      ⨬(⊃(=0. °⋯⇌°□⊡1
+          ⨬(1 ⁿ:2-FloatType~ExpBias^0
+          | 0 ⁿ:2 ¯14 ◌ # subnormal bulshit
+          )
+        | ÷ⁿ:2FloatType~MantNBits^0 °⋯⇌ °□⊡2
+        )
+        ⊙⨬∘(+1): # inc mant if not subnormal
+        ×        # mant * factor
+      | ∞◌
+      )
+    | NaN◌)
+  | ⨬(1|¯1)⊢°□⊡0)
+  × # sign
+)
 
 ┌─╴tests
   Test‼ ← ⍤""≍◌^0⍤""≍^1.°^0[].
@@ -171,4 +212,37 @@ Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
 
   ¯10
   Test‼Ibe₁₆ [246 255]
+
+  FloatLe!FTy₁₆ [53 85]
+  ⍤""=∩(⁅×1000000000000) 0.333251953125
+
+  FloatLe!FTy₁₆[0 1]
+  ⍤""=∩(⁅×1000000000000) 0.000000059604645
+
+  FloatLe!FTy₁₆[3 255]
+  ⍤""=∩(⁅×1000000000000) 0.000060975552
+
+  FloatLe!FTy₁₆[4 0]
+  ⍤""=∩(⁅×1000000000000) 0.00006103515625
+
+  FloatLe!FTy₁₆[59 255]
+  ⍤""=∩(⁅×10000000) 0.99951172
+
+  FloatLe!FTy₁₆[60 0]
+  ⍤""=1
+
+  FloatLe!FTy₁₆[60 1]
+  ⍤""=∩(⁅×10000000)1.00097656
+
+  FloatLe!FTy₁₆[123 255]
+  ⍤""=65504
+
+  FloatLe!FTy₁₆[124 0]
+  ⍤""=∞
+
+  FloatLe!FTy₁₆[128 0]
+  ⍤""=¯0
+
+  FloatLe!FTy₁₆[252 0]
+  ⍤""=¯∞
 └─╴
