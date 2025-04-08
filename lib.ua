@@ -181,6 +181,22 @@ AMDFBe₂₄ ← BeConv‼3 AMDFLe₂₄
 # BrainFloat 16
 BFBe₁₆ ← BeConv‼2 BFLe₁₆
 
+# uitl for decoding a prefixed variant
+#
+# example:
+#   Var‼Ule₈⨬(Ule₁₆|Ube₁₆)
+#   # if the u8 is 0, decode following u16 as LE, otherwise BE
+#
+# example:
+#   Var‼Ule₈⍣(
+#     Ule₁₆°0
+#   | Ube₁₆°1
+#   | VarFail)
+#
+Var‼ ← ^1 : ^0
+
+VarFail ← ⍤"variant match failure"0
+
 ┌─╴tests
   Test‼ ← ⍤""≍◌^0⍤""≍^1.°^0[].
 
@@ -230,7 +246,7 @@ BFBe₁₆ ← BeConv‼2 BFLe₁₆
   ¯10
   Test‼Ibe₁₆ [246 255]
 
-  FloatLe!FTy₁₆ [53 85]
+  FloatLe!FTy₁₆[53 85]
   ⍤""=∩(⁅×1000000000000) 0.333251953125
 
   FloatLe!FTy₁₆[0 1]
@@ -266,4 +282,24 @@ BFBe₁₆ ← BeConv‼2 BFLe₁₆
   ⧈(°⋯⇌)¤¤8 -@0"11000000100100111101011100001010"
   FloatLe!FTy₃₂
   ⍤""=∩(⁅×10000000000000) ¯4.619999885559082
+
+  {Var‼Ule₈⨬(Ule₁₆|Ube₁₆)[0 0 1]}
+  ⍤""≍{[] 1}
+
+  {Var‼Ule₈⨬(Ule₁₆|Ube₁₆)[1 0 1]}
+  ⍤""≍{[] 256}
+
+  {Var‼Ule₈⍣(
+      Ule₁₆°0
+    | Ube₁₆°1
+    | VarFail
+    )[0 0 1]}
+  ⍤""≍{[] 1}
+
+  {Var‼Ule₈⍣(
+      Ule₁₆°0
+    | Ube₁₆°1
+    | VarFail
+    )[1 0 1]}
+  ⍤""≍{[] 256}
 └─╴
