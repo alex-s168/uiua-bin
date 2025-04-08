@@ -141,12 +141,9 @@ FTy₁₆ ← FloatType 5 15 10
 FTy₃₂ ← FloatType 8 127 23
 FTy₆₄ ← FloatType 11 1023 52
 
-FloatUnPack! ↚ (
-  SelectByteBits![1 FloatType~ExpNBits^0 FloatType~MantNBits^0]
-)
-
 FloatLe! ← (
-  FloatUnPack!^0⇌
+  ⇌
+  SelectByteBits![1 FloatType~ExpNBits^0 FloatType~MantNBits^0]
   ⊃(×⊸⊃(/×°□⊡1|/×≠0°□⊡2)
     ⨬(×⊸⊃(/×°□⊡1|/×=0°□⊡2)
       ⨬(⊃(=0. °⋯⇌°□⊡1
@@ -163,6 +160,16 @@ FloatLe! ← (
   | ⨬(1|¯1)⊢°□⊡0)
   × # sign
 )
+
+FConv‼ ← ⊃(↘^0|FloatLe!^1↙^0)
+
+FLe₁₆ ← FConv‼2 FTy₁₆
+FLe₃₂ ← FConv‼4 FTy₃₂
+FLe₆₄ ← FConv‼8 FTy₆₄
+
+FBe₁₆ ← BeConv‼2 FLe₁₆
+FBe₃₂ ← BeConv‼4 FLe₃₂
+FBe₆₄ ← BeConv‼8 FLe₆₄
 
 ┌─╴tests
   Test‼ ← ⍤""≍◌^0⍤""≍^1.°^0[].
@@ -245,4 +252,8 @@ FloatLe! ← (
 
   FloatLe!FTy₁₆[252 0]
   ⍤""=¯∞
+
+  ⧈(°⋯⇌)¤¤8 -@0"11000000100100111101011100001010"
+  FloatLe!FTy₃₂
+  ⍤""=∩(⁅×10000000000000) ¯4.619999885559082
 └─╴
