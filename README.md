@@ -5,7 +5,6 @@ All (de-)serializers have a signature of `RemainingBytes Value <- Bytes`, or for
 
 [Auto-generated docs](https://alex-s168.github.io/uiua-bin/)
 
-Example:
 ```
 B ~ "git: github.com/alex-s168/uiua-bin"
 
@@ -25,4 +24,40 @@ QoiHeader 123 321 1 2
 
 # pop is used to remove remaining bytes of parser
 ◌QoiHeaderBin
+```
+
+## Examples
+### String Array
+```
+~Ty {Name Members}
+
+TyGBin ← M‼Z!Ty(
+  F!!CStr__8 Ty~Name
+  F‼Arr!!Ule__16 CStr__8 Ty~Members
+)
+```
+
+### Variants
+```
+~ Ty {Name Type Value}
+~ TyUser {Password}
+~ TyGroup {Members}
+
+TyUserBin ← M‼Z!TyUser(
+  F‼CStr__8 TyUser~Password
+)
+
+TyGroupBin ← M‼Z!TyGroup(
+  F‼Arr!!Ule__16 CStr__8 TyGroup~Members
+)
+
+TyBin ← M‼Z!Ty(
+  F‼UStr__8 Ty~Name
+  Multi!(
+    Var‼Ule₈ InvTry!(
+      VarEnt‼0 Map!!box TyUserBin
+    | VarEnt‼1 Map!!box TyGroupBin
+    | VarFail)
+  | Ty~Type | Ty~Value)
+)
 ```
