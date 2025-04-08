@@ -137,9 +137,11 @@ SelectByteBits! ← ⌅(
 )
 
 |FloatType {ExpNBits ExpBias MantNBits}
-FTy₁₆ ← FloatType 5 15 10
-FTy₃₂ ← FloatType 8 127 23
-FTy₆₄ ← FloatType 11 1023 52
+FTy₁₆    ← FloatType 5 15 10
+FTy₃₂    ← FloatType 8 127 23
+FTy₆₄    ← FloatType 11 1023 52
+BFTy₁₆   ← FloatType 8 127 7
+AMDFTy₂₄ ← FloatType 7 63 16
 
 FloatLe! ← (
   ⇌
@@ -148,7 +150,7 @@ FloatLe! ← (
     ⨬(×⊸⊃(/×°□⊡1|/×=0°□⊡2)
       ⨬(⊃(=0. °⋯⇌°□⊡1
           ⨬(1 ⁿ:2-FloatType~ExpBias^0
-          | 0 ⁿ:2 ¯14 ◌ # subnormal bulshit
+          | 0 ⁿ:2 ¯-1 FloatType~ExpBias^0 ◌ # subnormal bulshit
           )
         | ÷ⁿ:2FloatType~MantNBits^0 °⋯⇌ °□⊡2
         )
@@ -166,10 +168,18 @@ FConv‼ ← ⊃(↘^0|FloatLe!^1↙^0)
 FLe₁₆ ← FConv‼2 FTy₁₆
 FLe₃₂ ← FConv‼4 FTy₃₂
 FLe₆₄ ← FConv‼8 FTy₆₄
+# AMD's 24 bit float format
+AMDFLe₂₄ ← FConv‼3 AMDFTy₂₄
+# BrainFloat 16
+BFLe₁₆ ← FConv‼2 BFTy₁₆
 
 FBe₁₆ ← BeConv‼2 FLe₁₆
 FBe₃₂ ← BeConv‼4 FLe₃₂
 FBe₆₄ ← BeConv‼8 FLe₆₄
+# AMD's 24 bit float format
+AMDFBe₂₄ ← BeConv‼3 AMDFLe₂₄
+# BrainFloat 16
+BFBe₁₆ ← BeConv‼2 BFLe₁₆
 
 ┌─╴tests
   Test‼ ← ⍤""≍◌^0⍤""≍^1.°^0[].
