@@ -59,12 +59,11 @@ TyGroupBin ← M‼Z!TyGroup(
 
 TyBin ← M‼Z!Ty(
   F‼UStr__8 Ty~Name
-  Multi!(
-    Var‼Ule₈ InvTry!(
-      VarEnt‼0 Map!!box TyUserBin
-    | VarEnt‼1 Map!!box TyGroupBin
-    | VarFail)
-  | Ty~Type | Ty~Value)
+  F!!V!(
+    Ule₈
+  | 0 => Map!!box TyUserBin
+  | 1 => Map!!box TyGroupBin
+  )Ty~Value
 )
 ```
 
