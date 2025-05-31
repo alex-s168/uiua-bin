@@ -22,7 +22,7 @@ ConvNeg! ↚ ⌅(
 
 UleConv! ↚ ⌅(
   ⊃(↘^0|Conv↙^0)
-| ⊂⇌↙^0°Conv:)
+| ⊂⇌↙^0°Conv :)
 
 Ule₈  ← UleConv!1
 Ule₁₆ ← UleConv!2
