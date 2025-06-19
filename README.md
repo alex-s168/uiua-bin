@@ -1,7 +1,7 @@
 # uiua-bin
 Easy binary (de-) serialization in Uiua.
 
-All (de-)serializers have a signature of `RemainingBytes Value <- Bytes`, or for the inverse: `Bytes <- Bytes Value`
+All (de-)serializers have a signature of `RemainingBytes Value ? Bytes`, or for the inverse: `Bytes ? Bytes Value`
 
 ```
 B ~ "git: github.com/alex-s168/uiua-bin"
@@ -34,11 +34,11 @@ QoiHeader 123 321 1 2
 [Auto-generated docs](https://alex-s168.github.io/uiua-bin/)
 
 ### Importing
-You should depend on a fixed version of this module, instead of the lates, because of possible major API changes.
+You should depend on a fixed version of this module, instead of the latest, because of possible major API changes.
 
 On GitHub, you can see the latest version. Put that into here:
 ```
-B ~ "git: github.com/alex-s168/uiua-bin branch:v4.2.0"
+B ~ "git: github.com/alex-s168/uiua-bin branch:v0.4.5"
 ```
 
 ### String Array

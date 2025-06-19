@@ -119,10 +119,10 @@ Arr‼ ← ⌅(
 | ⊂⊙◌⊃(°^0[]⧻:)(⊂∧(⊂°^1[]):[]⇌:)
 )
 
-# parse array where length comes from somewhere else
+# parse an array where length comes from somewhere else
 #
 # macro arguments:
-# 1. field getter inside M!! to use as len
+# 1. field getter inside `M!!` to use as len
 # 2. parser for array elem
 #
 # can be used in `F!!` like this:
@@ -134,6 +134,21 @@ Arr‼ ← ⌅(
 RefArr‼ ← ⌅(
   :⍥(:⊙⊂⊙:^1:)⊙[]:⊙⊸^0
 | ⊂∧(⊂°^1[]):[]⇌:⊙(⊙(⍜^0◌:⧻).)
+)
+
+# parses an array of a fixed length
+#
+# macro arguments:
+# 1. array lengths (constant)
+# 2. parser for array elem
+#
+# example:
+# ```uiua
+# F!! NArr!!4 Ule__8 
+# ```
+NArr!! = obv(
+  rep(dipbackjoin^1)^0 dip[]
+| dippop rep(un^1 dipfork(last|dropneg1))^0
 )
 
 Args! ↚^ ⊂"⊢⊢"⋅repr

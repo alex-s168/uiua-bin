@@ -1,4 +1,4 @@
-B ~ "lib.ua" ~ Arr‼ CStr₈ F‼ Magic! Map‼ M‼ PadB‼ Ube₃₂ Ube₈ Ule₁₆ Ule₃₂ Z!
+B ~ "lib.ua" ~ Arr‼ CStr₈ F‼ Magic! Map‼ M‼ NArr‼ PadB‼ Ube₃₂ Ube₈ Ule₁₆ Ule₃₂ Z!
 
 Test‼ ← ⍤""≍◌^0⍤""≍^1.°^0[].
 
@@ -23,6 +23,9 @@ Test‼ArrBin[0 3 0 1 0 2 0 3]
 
 [1 2 3]
 Test‼Arr‼Ule₃₂ Ule₁₆[0 0 0 3 0 1 0 2 0 3]
+
+[1 2 3]
+Test‼NArr‼3 Ule₁₆ [0 1 0 2 0 3]
 
 [1 2 3]
 Test‼PadB‼12 Arr‼Ule₃₂ Ule₁₆[0 0 0 3 0 1 0 2 0 3 0 0]
