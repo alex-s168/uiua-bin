@@ -26,7 +26,11 @@ UleConv! ↚ ⌅(
 
 Ule₈  ← UleConv!1
 Ule₁₆ ← UleConv!2
+Ule₂₄ ← UleConv!3
 Ule₃₂ ← UleConv!4
+Ule₄₀ ← UleConv!5
+Ule₄₈ ← UleConv!6
+Ule₅₆ ← UleConv!7
 Ule₆₄ ← UleConv!8
 
 IleConv! ↚ ⌅(
@@ -35,19 +39,31 @@ IleConv! ↚ ⌅(
 
 Ile₈  ← IleConv!1
 Ile₁₆ ← IleConv!2
+Ile₂₄ ← IleConv!3
 Ile₃₂ ← IleConv!4
+Ile₄₀ ← IleConv!5
+Ile₄₈ ← IleConv!6
+Ile₅₆ ← IleConv!7
 Ile₆₄ ← IleConv!8
 
 BeConv‼ ↚ ⌅(^1⍜(↙^0)⇌|⊂:⊙(⇌°^1[]))
 
 Ube₈  ← BeConv‼1Ule₈
 Ube₁₆ ← BeConv‼2Ule₁₆
+Ube₂₄ ← BeConv‼3Ule₂₄
 Ube₃₂ ← BeConv‼4Ule₃₂
+Ube₄₀ ← BeConv‼5Ule₄₀
+Ube₄₈ ← BeConv‼6Ule₄₈
+Ube₅₆ ← BeConv‼7Ule₅₆
 Ube₆₄ ← BeConv‼8Ule₆₄
 
 Ibe₈  ← BeConv‼1Ile₈
 Ibe₁₆ ← BeConv‼2Ile₁₆
+Ibe₂₄ ← BeConv‼3Ile₂₄
 Ibe₃₂ ← BeConv‼4Ile₃₂
+Ibe₄₀ ← BeConv‼5Ile₄₀
+Ibe₄₈ ← BeConv‼6Ile₄₈
+Ibe₅₆ ← BeConv‼7Ile₅₆
 Ibe₆₄ ← BeConv‼8Ile₆₄
 
 # null terminated byte array
@@ -208,7 +224,7 @@ Var‼    ← ⌅(: ^1 : ^0|°^0:°^1)
 VarEnt‼ ← ⌅(^0 ^1 °^0|^0°^1°^0:)
 
 VarFailImpl ↚ ⍤"variant match failure"0
-VarFail     ← ⌅VarFailImpl VarFailImpl
+VarFail     ← ⌅(VarFailImpl|VarFailImpl)
 
 EmitV ↚ $"⌅(_|_)" ⊃($"(_):(_)"|$"°(_):°(_)":) C~EmitInvTry ⊂:≡⍚$"_ pop" C~ParseMatchArms!($"⌅(_|_)" ⊃($"(_)°(_)":)$"(_)°(_)")∘ ⊃(↘1|⊢)
 
