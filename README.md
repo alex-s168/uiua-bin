@@ -18,7 +18,7 @@ QoiHeaderBin ← B~M‼ B~Z!QoiHeader (
 
 QoiHeader 123 321 1 2
 °QoiHeaderBin[]
-# [65 63 57 54 123 0 0 0 65 1 0 0 1 2]
+# [113 111 105 102 0 0 0 123 0 0 1 65 1 2]
 
 # pop is used to remove remaining bytes of parser
 ◌QoiHeaderBin
@@ -46,8 +46,8 @@ B ~ "git: github.com/alex-s168/uiua-bin branch:v0.4.5"
 ~ Ty {Name Members}
 
 TyGBin ← M‼Z!Ty(
-  F!!CStr__8 Ty~Name
-  F‼Arr!!Ule__16 CStr__8 Ty~Members
+  F!!CStr,8 Ty~Name
+  F‼Arr!!Ule,16 CStr,8 Ty~Members
 )
 ```
 
@@ -58,17 +58,17 @@ TyGBin ← M‼Z!Ty(
 ~ TyGroup {Members}
 
 TyUserBin ← M‼Z!TyUser(
-  F‼CStr__8 TyUser~Password
+  F‼CStr,8 TyUser~Password
 )
 
 TyGroupBin ← M‼Z!TyGroup(
-  F‼Arr!!Ule__16 CStr__8 TyGroup~Members
+  F‼Arr!!Ule,16 CStr,8 TyGroup~Members
 )
 
 TyBin ← M‼Z!Ty(
-  F‼UStr__8 Ty~Name
+  F‼UStr,8 Ty~Name
   F!!V!(
-    Ule₈
+    U,8
   | 0 => Map!!box TyUserBin
   | 1 => Map!!box TyGroupBin
   )Ty~Value
