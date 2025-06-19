@@ -74,40 +74,46 @@ NullTerm ← ⌅(
 # null terminated utf8 string
 CStr₈ ← ⊙°utf₈ NullTerm
 
-# insert ^0 bytes that can be any value / padding bytes
+# insert `^0` bytes that can be any value / padding bytes
 PaddingB! ← ⌅(↘^0|⊂↯^0 0)
 
 # applies the converter,
 # but pushes the amount of bytes
-# it consumed / created onto the stack
-# this can not be un-ed but you can use UnLen!
+# it consumed / created onto the stack.
+#
+# this can not be un-ed, but you can use `UnLen!`
 Len!   ← -:⊙⊸⧻⊙^0⧻.
 UnLen! ← ¯Len!°^0
 
-# pad output of parser ^1 to ^0 bytes with zeros
+# pad output of parser `^1` to `^0` bytes with zeros
 PadB‼ ← ⌅(
   ↘-:^0 Len!^1
 | ⊂:⊂↯:0-:^0 :⊙(UnLen!^1[]))
 
-# assign the value of parser ^0 to struct field ^1
+# assign the value of parser `^0` to struct field `^1`
 #
-# you can use this in M!!
+# you can use this in `M!!`
 F‼ ← ⌅(
   ⊙(⍜^1(∘◌):)^0
 | °^0⊙⊸^1)
 
-# must match exactly bytes from ^0
-# example:  B~Magic!(-@\0"png")
+# must match exactly the bytes from `^0`
+#
+# example: 
+# ```uiua
+# B~Magic!(-@\0"png")
+# ```
 Magic! ← ⌅(
   ⍤"magic mismatch"≍^0 ⊃↙↘⧻^0
 | ⊂^0)
 
-# parse length prefixed array.
+# parse length-prefixed array.
 #
-# first macro arg:  parser for array len prefix
-# second macro arg: parser for array elem
+# macro arguments:
+# 1. parser for array len prefix
+# 2. parser for array elem
 #
-# you might want to box the value of the inner parser using Map!!
+# you might want to box the value of the inner parser using `Map!!`
 Arr‼ ← ⌅(
   ⊙⇌⍥(⊙⊂^1):^0⊙[]
 | ⊂⊙◌⊃(°^0[]⧻:)(⊂∧(⊂°^1[]):[]⇌:)
@@ -115,13 +121,16 @@ Arr‼ ← ⌅(
 
 # parse array where length comes from somewhere else
 #
-# first macro arg:  field getter inside M!! to use as len
-# second macro arg: parser for array elem
+# macro arguments:
+# 1. field getter inside M!! to use as len
+# 2. parser for array elem
 #
-# can be used in F!! like this:
-# ˙ F!! RefArr!!MyStruct~Len Ule__8 MyStruct~Data
+# can be used in `F!!` like this:
+# ```uiua
+# F!! RefArr!!MyStruct~Len Ule__8 MyStruct~Data
+# ```
 #
-# you might want to box the value of the inner parser using Map!!
+# you might want to box the value of the inner parser using `Map!!`
 RefArr‼ ← ⌅(
   :⍥(:⊙⊂⊙:^1:)⊙[]:⊙⊸^0
 | ⊂∧(⊂°^1[]):[]⇌:⊙(⊙(⍜^0◌:⧻).)
@@ -129,16 +138,33 @@ RefArr‼ ← ⌅(
 
 Args! ↚^ ⊂"⊢⊢"⋅repr
 
-# zero-initialize struct
+# zero-initialize struct `^0`
 Z! ← °[°^0] ↯⊙0 Args!^0
 
-# struct parser <- ZeroInit FieldSerial
-# example:
-# ˙ HeaderBin = M!!Z!Header( F!!Ube__32 Header~Abc )
+# Helper to create a struct parser.
+#
+# Example:
+# ```uiua
+# HeaderBin = M!!Z!Header(
+#   F!!Ube,32 Header~Abc
+# )
+# ```
+#
+# This can also be used to parse tuples:
+# ```uiua
+# Test = M!![0 0](
+#   F!!Ube,32 pick,0
+#   F!!Ube,32 pick,1
+# )
+# ```
+#
+# StructParser ? ZeroInit FieldSerial
 M‼ ← ⌅(^1⊙^0|⊙◌°^1)
 
-# modify value after parser
-# Parser <- MapFn Parser
+# modify value after it is parsed.
+# also works with un by modifying the value before it is encoded.
+#
+# Parser ? MapFn Parser
 Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
 
 # input amount of bytes has to be equal to how many bits consumed (to bytes)
@@ -146,8 +172,10 @@ Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
 # can also be un-ed
 #
 # example:
-# ˙ SelectByteBits![3 3 2] [231]
-# ˙ ## {[1 1 1] [0 0 1] [1 1]}
+# ```uiua
+# SelectByteBits![3 3 2] [231]
+# ## {[1 1 1] [0 0 1] [1 1]}
+# ```
 SelectByteBits! ← ⌅(
   ⇌/⊂≡(⬚0↙8⋯)
   ⊕□▽°˜⊏^0
@@ -168,7 +196,7 @@ FloatLe! ← (
     ⨬(×⊸⊃(/×°□⊡1|/×=0°□⊡2)
       ⨬(⊃(=0. °⋯⇌°□⊡1
           ⨬(1 ⁿ:2-FloatType~ExpBias^0
-          | 0 ⁿ:2 ¯-1 FloatType~ExpBias^0 ◌ # subnormal bulshit
+          | 0 ⁿ:2 ¯-1 FloatType~ExpBias^0 ◌ # subnormal bullshit
           )
         | ÷ⁿ:2FloatType~MantNBits^0 °⋯⇌ °□⊡2
         )
@@ -181,7 +209,8 @@ FloatLe! ← (
   × # sign
 )
 
-# defines a fake un- inverse for the given function
+# defines a fake un- inverse (that errors when it is called) for the given function
+#
 # this can be used to get the no inverse found error at runtime instead of compile time
 NoInv! ←^ $"obv(_|assert\"NoInv! inverse was called\"0 _)" ◇⊢: ⍥(⊂"0 "): ⍥(⊂"pop"):"" :°[⊙⊙] ⊢:
 
@@ -203,23 +232,25 @@ AMDFBe₂₄ ← BeConv‼3 AMDFLe₂₄
 # BrainFloat 16
 BFBe₁₆ ← BeConv‼2 BFLe₁₆
 
-# decode a prefixed variant
+# decode a prefixed variant type
+#
 # parsers of variants can have any amount of outputs
 #
 # example:
-# ˙ #if u8 is 0, decode LE u16, otherwise BE u16
-# ˙ Var‼Ule₈C~InvTry!(
-# ˙   VarEnt‼0 Ule₁₆
-# ˙ | VarEnt‼1 Ube₁₆
-# ˙ | VarFail)
+# ```uiua
+# #if u8 is 0, decode LE u16, otherwise BE u16
+# Var‼Ule₈C~InvTry!(
+#   VarEnt‼0 Ule₁₆
+# | VarEnt‼1 Ube₁₆
+# | VarFail)
+# ```
 #
 # generated parser signature:
-# ˙ RemBytes Variant Value <= Bytes
+# `RemBytes Variant Value ? Bytes`
 #
-# you might want to put this into Multi!
+# you might want to put this into `Multi!`
 #
-# YOU PROBABLY WANT TO USE V!! INSTEAD
-#
+# YOU PROBABLY WANT TO USE``V!!` INSTEAD
 Var‼    ← ⌅(: ^1 : ^0|°^0:°^1)
 VarEnt‼ ← ⌅(^0 ^1 °^0|^0°^1°^0:)
 
@@ -231,27 +262,34 @@ EmitV ↚ $"⌅(_|_)" ⊃($"(_):(_)"|$"°(_):°(_)":) C~EmitInvTry ⊂:≡⍚$"_
 # decode a prefixed variant
 #
 # example:
-# ˙ V!(
-# ˙   Ule₈
-# ˙ | 0 => Ule₁₆
-# ˙ | . => Ube₁₆
-# ˙ )
+# ```uiua
+# V!(
+#   Ule₈
+# | 0 => Ule₁₆
+# | . => Ube₁₆
+# )
+# ```
 #
 # the value of this parser depends on which variant is chosen
 #
-# It uses https://github.com/alex-s168/cursed-ua for parsing the match arms
+# It uses [cursed.ua](https://github.com/alex-s168/cursed-ua) for parsing the match arms
 V! ←^ EmitV
 
 # Run a parser which generates multiple outputs, and binds those to a struct
 #
+# This is useful in certain situations,
+# but when you don't have other alternatives to using this,
+# most of the time, you should refactor your code instead
+#
 # Example:
-# ˙ Multi!(
-# ˙   Var‼Ule₈InvTry!(
-# ˙     VarEnt‼0 Ule₁₆
-# ˙   | VarEnt‼1 Ube₁₆
-# ˙   | VarFail)
-# ˙ | TestTy~Variant | TestTy~Data)
-# ˙
+# ```uiua
+# Multi!(
+#   Var‼Ule₈InvTry!(
+#     VarEnt‼0 Ule₁₆
+#   | VarEnt‼1 Ube₁₆
+#   | VarFail)
+# | TestTy~Variant | TestTy~Data)
+# ```
 Multi! ←^ (
   ⊃(↘1)⊢ # => TOP BindAddrs Parser BOT
 
