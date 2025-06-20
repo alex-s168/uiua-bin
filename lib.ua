@@ -112,9 +112,18 @@ F‼ ← ⌅(
 # ```uiua
 # B~Magic!(-@\0"png")
 # ```
+#
+# RemainingBytes ? MagicSeq Bytes
 Magic! ← ⌅(
   ⍤"magic mismatch"≍^0 ⊃↙↘⧻^0
 | ⊂^0)
+
+# a parser that does not encode / decode any bytes,
+# and instead just has the given value
+Just! = obv(
+  dip^0
+| dippop
+)
 
 # parse length-prefixed array.
 #
