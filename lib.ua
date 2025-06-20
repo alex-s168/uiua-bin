@@ -329,3 +329,12 @@ Multi! ←^ (
 
   $"obv((_)|(_))"
 )
+
+# A parser that returns the value from the struct field,
+# (or sets the value from the struct field in encode)
+#
+# Works only inside a `M!!` context
+Ref! ← ⌅(⊙⊸^0|⊙°⊸^0)
+
+# parses nothing
+None = Magic![]
