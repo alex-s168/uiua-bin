@@ -86,7 +86,7 @@ CStr₈ ← ⊙°utf₈ NullTerm
 # insert `^0` bytes that can be any value / padding bytes
 PaddingB! ← ⌅(↘^0|⊂↯^0 0)
 
-# applies the converter,
+# applies the parser,
 # but pushes the amount of bytes
 # it consumed / created onto the stack.
 #
@@ -94,7 +94,7 @@ PaddingB! ← ⌅(↘^0|⊂↯^0 0)
 Len!   ← -:⊙⊸⧻⊙^0⧻.
 UnLen! ← ¯Len!°^0
 
-# pad output of parser `^1` to `^0` bytes with zeros
+# pad output of parser `^1` to `^0` bytes with trailing zeros
 PadB‼ ← ⌅(
   ↘-:^0 Len!^1
 | ⊂:⊂↯:0-:^0 :⊙(UnLen!^1[]))
@@ -131,27 +131,12 @@ Just! = obv(
 # 1. parser for array len prefix
 # 2. parser for array elem
 #
+# if the array length is not a prefix, consider using this in combination with `Ref!`
+#
 # you might want to box the value of the inner parser using `Map!!`
 Arr‼ ← ⌅(
   ⊙⇌⍥(⊙⊂^1):^0⊙[]
 | ⊂⊙◌⊃(°^0[]⧻:)(⊂∧(⊂°^1[]):[]⇌:)
-)
-
-# parse an array where length comes from somewhere else
-#
-# macro arguments:
-# 1. field getter inside `M!!` to use as len
-# 2. parser for array elem
-#
-# can be used in `F!!` like this:
-# ```uiua
-# F!! RefArr!!MyStruct~Len Ule__8 MyStruct~Data
-# ```
-#
-# you might want to box the value of the inner parser using `Map!!`
-RefArr‼ ← ⌅(
-  :⍥(:⊙⊂⊙:^1:)⊙[]:⊙⊸^0
-| ⊂∧(⊂°^1[]):[]⇌:⊙(⊙(⍜^0◌:⧻).)
 )
 
 # parses an array of a fixed length
@@ -303,6 +288,9 @@ EmitV ↚ $"⌅(_|_)" ⊃($"(_):(_)"|$"°(_):°(_)":) C~EmitInvTry ⊂:≡⍚$"_
 # )
 # ```
 #
+# if the variant ID is not a prefix,
+# consider using this in combination with `Ref!`
+#
 # the value of this parser depends on which variant is chosen
 #
 # It uses [cursed.ua](https://github.com/alex-s168/cursed-ua) for parsing the match arms
@@ -343,6 +331,17 @@ Multi! ←^ (
 # (or sets the value from the struct field in encode)
 #
 # Works only inside a `M!!` context
+#
+# this can be used together with other parsers, such as `Arr!!`, when the length is not a prefix:
+# ```uiua
+# ~Struct { CoolArr CoolArrLen }
+#
+# M!!Z!Struct(
+#   F!! Ule,32 Struct~CoolArrLen
+#   ...
+#   F!! Arr!! Ref! Struct~CoolArrLen U,8 Struct~CoolArr
+# )
+# ```
 Ref! ← ⌅(⊙⊸^0|⊙°⊸^0)
 
 # parses nothing

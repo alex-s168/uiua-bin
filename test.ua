@@ -49,7 +49,7 @@ Test‼QoiHeaderBin[113 111 105 102 0 0 0 123 0 0 1 65 1 2]
 |Arr {Len Data}
 ArrBin ← M‼Z!Arr(
   F‼Ube₁₆ Arr~Len
-  F‼RefArr‼Arr~Len Ube₁₆ Arr~Data
+  F‼Arr‼B~Ref!Arr~Len Ube₁₆ Arr~Data
 )
 Arr 3 [1 2 3]
 Test‼ArrBin[0 3 0 1 0 2 0 3]
