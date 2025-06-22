@@ -230,3 +230,6 @@ TestRem‼B~SimpleAll!∘ [5]
 
 [1 2 3]
 TestRem‼B~UntilEnd!Ube₁₆ [0 1 0 2 0 3]
+
+[1 2 3]
+Test‼B~Sub‼6 B~UntilEnd!Ube₁₆ [0 1 0 2 0 3]

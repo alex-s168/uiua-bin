@@ -47,6 +47,13 @@
 # ⍜(QoiHeader~Width◌QoiHeaderBin)(-10)
 # ## [113 111 105 102 113 0 0 0 65 1 0 0 1 2]
 # ```
+#
+# ## Performance
+# The performance of most things is quite good, because array slicing (take and drop) is zero-cost.
+#
+# Bit parsers however convert all bytes to bits first, and then convert the remaining bits back to bytes.
+# This is a issue when you have lots of data.
+# Because of this, consider using `Sub!!`
 
 C ≁ "git: github.com/alex-s168/cursed-ua"
 
@@ -505,3 +512,17 @@ SimpleN‼ ← ⌅(
 # takes in a parser of signature `Value ? Bytes`,
 # and parsers all remaining bytes with it
 SimpleAll! ← ⌅([]^0|⊂:⊙°^0)
+
+# Runs the given parser in a sub-view of the bytes of length N.
+#
+# This is useful for performance of bit parsers and also for until-end parsers.
+#
+# Parser ? Num Parser
+Sub‼ ← ⌅(
+  ⊃(↘^0|^1↙^0)
+  # RemBytesTail RemBytesHead Value ...
+  ˜⊂
+| ⊙(°^1[])
+  # OldBytes AddBytes ...
+  ˜⊂
+)
