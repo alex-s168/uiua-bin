@@ -29,6 +29,7 @@ QoiHeader 123 321 1 2
 - de-serialization of floats (F16, F32, F64, BF16) (encoding not yet supported)
 - (de-)serialization of null-terminated strings
 - (de-)serialization of optionally length-prefixed arrays, structs, and variants
+- Many other useful Features
 
 ## Usage
 [Auto-generated docs](https://alex-s168.github.io/uiua-bin/)
@@ -38,7 +39,7 @@ You should depend on a fixed version of this module, instead of the latest, beca
 
 On GitHub, you can see the latest version. Put that into here:
 ```
-B ~ "git: github.com/alex-s168/uiua-bin branch:v0.4.5"
+B ~ "git: github.com/alex-s168/uiua-bin branch:v0.4.6"
 ```
 
 ### String Array

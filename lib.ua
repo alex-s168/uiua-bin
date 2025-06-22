@@ -195,6 +195,11 @@ M‼ ← ⌅(^1⊙^0|⊙◌°^1)
 # modify value after it is parsed.
 # also works with un by modifying the value before it is encoded.
 #
+# Example:
+# ```uiua
+# Map!!box Arr!!Ule,16 U,8
+# ```
+#
 # Parser ? MapFn Parser
 Map‼ ← ⌅(⊙^0^1|°^1⊙°^0)
 
