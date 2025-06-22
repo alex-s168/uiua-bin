@@ -286,9 +286,6 @@ ComposeGen ↚ |2 (
   /⍚$"_\n_"≡(□⨬(∘|$"obv(dippop (_)|un(_)dip[])".) =+1°⊟:°□)
 )
 
-# you probably don't need to use this directly
-Compose! ←^ ComposeGen
-
 # boxCode NewSignature ? ctx boxCode Signature
 GenF ↚ (
   ⊙(°□
@@ -298,6 +295,28 @@ GenF ↚ (
   | $"F!!((_)|(_(_)))":⊙(:°[⊙⊙] ⊙(+1⍜⊡₁(-1)))
   )-1◡⋅⧻
 )
+
+# Consider using `M!` instead.
+# 
+# This is useful for when you are parsing a struct,
+# have nesting, and want the nice syntax to replace `F!!`
+# 
+# Example:
+# ```uiua
+# |QoiHeader {Width Height Channels Colorspace}
+# 
+# QoiHeaderBin ← M!(
+#   Z!QoiHeader
+# | Just!(-@\0"qoif")
+# | QoiHeader~Width = Ube₃₂
+# | QoiHeader~Height = Ube₃₂
+# | Sub!!2 Compose!(
+#   | QoiHeader~Channels = Ube₈
+#   | QoiHeader~Colorspace = Ube₈
+#   )
+# )
+# ```
+Compose! ←^ (ComposeGen ≡(GenF""))
 
 # Helper to create a compound data parser.
 # 
