@@ -478,3 +478,15 @@ Ref! ← ⌅(⊙⊸^0|⊙°⊸^0)
 
 # parses nothing
 None ← Just![]
+
+# takes in a parser of signature `Value ? Bytes`,
+# and parses the first N bytes with it
+#
+# Parser ? Num SimpleParser
+SimpleN‼ ← ⌅(
+  ⊃(↘^0|^1 ↙^0)
+| ⊂:⊙(°^0⧻. ^1))
+
+# takes in a parser of signature `Value ? Bytes`,
+# and parsers all remaining bytes with it
+SimpleAll! ← ⌅([]^0|⊂:⊙°^0)

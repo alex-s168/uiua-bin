@@ -10,6 +10,14 @@ Test‼ ← ⊃(
   AssertMatch!"decode: value"
 )
 
+# ? Parser Bytes Value
+TestRem‼ ← ⊃(
+  AssertMatch!"encode" ^1 °^0 []
+| ^0 ^1
+  AssertMatch!"decode: remaining bytes" []
+  AssertMatch!"decode: value"
+)
+
 [113 111 105 102]
 Test‼Just!(-@\0"qoif") [113 111 105 102]
 
@@ -213,3 +221,9 @@ Test‼(
     ) ⊡₁
   )
 | [1 0 69 0 5])
+
+[5]
+Test‼B~SimpleN‼1∘ [5]
+
+[5]
+TestRem‼B~SimpleAll!∘ [5]
