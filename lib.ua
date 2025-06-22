@@ -193,7 +193,18 @@ ComposeGen ↚ |2 (
 # you probably don't need to use this directly
 Compose! ←^ ComposeGen
 
+# boxCode NewSignature ? boxCode Signature
+GenF ↚ (
+  °□
+  C~SplitWithIndent‼!@(@)@=
+  ⨬(⊙∘⊢
+  | □$"F!!((_)|(_))":°[⊙⊙] ⊙⍜⊡₁(-1)
+  )-1⧻.
+)
+
 # Helper to create a compound data parser.
+#
+# Please read to the end.
 #
 # Example:
 # ```uiua
@@ -209,9 +220,23 @@ Compose! ←^ ComposeGen
 # | F!!Ube,32 pick,1
 # )
 # ```
+#
+# There is also comptime syntax so you don't have to type `F!!`:
+# ```uiua
+# |QoiHeader {Width Height Channels Colorspace}
+#
+# QoiHeaderBin ← M!(
+#   Z!QoiHeader
+# | Just!(-@\0"qoif")
+# | QoiHeader~Width = Ube₃₂
+# | QoiHeader~Height = Ube₃₂
+# | QoiHeader~Channels = Ube₈
+# | QoiHeader~Colorspace = Ube₈
+# )
+# ```
 M! ←^ $"MCtx!!((_)|(_))" ⊃(
   ⊢⊙◌
-| ComposeGen ∩(↘1)
+| ComposeGen≡GenF ∩(↘1)
 )
 
 # modify value after it is parsed.
