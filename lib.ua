@@ -118,12 +118,10 @@ Magic! ← ⌅(
   ⍤"magic mismatch"≍^0 ⊃↙↘⧻^0
 | ⊂^0)
 
-# a parser that does not encode / decode any bytes,
-# and instead just has the given value
+# a parser that encodes and returns ^0
 Just! ← ⌅(
-  ⊙^0
-| ⊙◌
-)
+  ⊙^0⍤"magic mismatch"≍^0 ⊃↙↘⧻^0
+| ⊂^0 ⊙◌)
 
 # parse length-prefixed array.
 #
@@ -191,6 +189,9 @@ Z! ← °[°^0] ↯⊙0 Args!^0
 #
 # StructParser ? ZeroInit FieldSerial
 M‼ ← ⌅(^1⊙^0|⊙◌°^1)
+
+# you probably don't need to use this directly
+Compose! ←^ /⍚$"_\n_"≡(□⨬(∘|$"obv(dippop (_)|un(_)dip[])".) =+1°⊟:°□)
 
 # modify value after it is parsed.
 # also works with un by modifying the value before it is encoded.

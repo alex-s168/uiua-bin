@@ -10,6 +10,12 @@ Test‼ ← ⊃(
   AssertMatch!"decode: value"
 )
 
+[113 111 105 102]
+Test‼B~Just!(-@\0"qoif") [113 111 105 102]
+
+°[] B~Compose!(B~Just![5]) [5]
+°[5] °B~Compose!(B~Just![5]) []
+
 10
 Test‼B~Ile₁₆ [10 0]
 
@@ -44,6 +50,17 @@ QoiHeaderBin ← M‼Z!QoiHeader(
   F‼Ube₃₂ QoiHeader~Height
   F‼Ube₈ QoiHeader~Channels
   F‼Ube₈ QoiHeader~Colorspace
+)
+QoiHeader 123 321 1 2
+Test‼QoiHeaderBin[113 111 105 102 0 0 0 123 0 0 1 65 1 2]
+
+|QoiHeader {Width Height Channels Colorspace}
+QoiHeaderBin ← M‼Z!QoiHeader B~Compose!(
+  Just!(-@\0"qoif")
+| F‼Ube₃₂ QoiHeader~Width
+| F‼Ube₃₂ QoiHeader~Height
+| F‼Ube₈ QoiHeader~Channels
+| F‼Ube₈ QoiHeader~Colorspace
 )
 QoiHeader 123 321 1 2
 Test‼QoiHeaderBin[113 111 105 102 0 0 0 123 0 0 1 65 1 2]
@@ -182,6 +199,3 @@ Test‼(
     ) ⊡₁
   )
 | [1 0 69 0 5])
-
-69
-Test‼B~Just!69 []
