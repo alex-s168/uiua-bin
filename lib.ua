@@ -135,19 +135,32 @@ Just! ← ⌅(
 #
 # you might want to box the value of the inner parser using `Map!!`
 Arr‼ ← ⌅(
-  ⊙⇌⍥(⊙⊂^1):^0⊙[]
-| ⊂⊙◌⊃(°^0[]⧻:)(⊂∧(⊂°^1[]):[]⇌:)
+  ⊙[]:^0
+  # Len Arr RemBytes ...
+
+  ⍥(
+    # Arr RemBytes ...
+    ⊙: ⊙^1
+    # Arr Elt RemBytes ...
+    ⊂
+  )
+  :
+| :
+  # Arr Bytes ...
+  ⟜∧(°^1:)⇌
+  # Arr Bytes ...
+  °^0:⧻
 )
 
 # parses an array of a fixed length
 #
 # macro arguments:
-# 1. array lengths (constant)
+# 1. array length (constant)
 # 2. parser for array elem
 #
 # example:
 # ```uiua
-# F!! NArr!!4 Ule__8
+# F!! NArr!!4 Ule,8
 # ```
 NArr‼ ← ⌅(
   ⍥(⊙˜⊂^1)^0 ⊙[]

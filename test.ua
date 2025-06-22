@@ -1,11 +1,13 @@
 B ~ "lib.ua" ~ Arr‼ CStr₈ F‼ Magic! Map‼ M‼ NArr‼ PadB‼ Ube₃₂ Ube₈ Ule₁₆ Ule₃₂ Z!
 
+AssertMatch! ← ⍤$"Error: _\nExpected: _\nGot: _"^0 ⊃(∩pretty|≍)
+
 # ? Parser Bytes Value
 Test‼ ← ⊃(
-  ⍤"encode"≍ ⊂^1[1 2 3] °^0 [1 2 3]
-| ^0 ⊂^1[1 2 3]
-  ⍤"decode: remaining bytes"≍[1 2 3]
-  ⍤"decode: value"≍
+  AssertMatch!"encode" ⊂^1[69 2 3] °^0 [69 2 3]
+| ^0 ⊂^1[69 2 3]
+  AssertMatch!"decode: remaining bytes" [69 2 3]
+  AssertMatch!"decode: value"
 )
 
 10
