@@ -1,4 +1,4 @@
-B ~ "lib.ua" ~ Arr‼ CStr₈ F‼ Just! M! Map‼ NArr‼ PadB‼ Ube₃₂ Ube₈ Ule₁₆ Ule₃₂ Z!
+B ~ "lib.ua" ~ Arr‼ CStr₈ F‼ Just! M! Map‼ NArr‼ PadB‼ Ube₃₂ Ule₁₆ Ule₃₂ U₈ Z!
 
 AssertMatch! ← ⍤$"Error: _\nExpected: _\nGot: _"^0 ⊃(∩pretty|≍)
 
@@ -15,6 +15,9 @@ Test‼Just!(-@\0"qoif") [113 111 105 102]
 
 °[] B~Compose!(Just![5]) [5]
 °[5] °B~Compose!(Just![5]) []
+
+10
+Test‼U₈ [10]
 
 10
 Test‼B~Ile₁₆ [10 0]
@@ -46,8 +49,8 @@ QoiHeaderBin ← M!(
 | Just!(-@\0"qoif")
 | F‼Ube₃₂ QoiHeader~Width
 | F‼Ube₃₂ QoiHeader~Height
-| F‼Ube₈ QoiHeader~Channels
-| F‼Ube₈ QoiHeader~Colorspace
+| F‼U₈ QoiHeader~Channels
+| F‼U₈ QoiHeader~Colorspace
 )
 QoiHeader 123 321 1 2
 Test‼QoiHeaderBin[113 111 105 102 0 0 0 123 0 0 1 65 1 2]
@@ -57,8 +60,8 @@ QoiHeaderBin ← M!(
 | Just!(-@\0"qoif")
 | QoiHeader~Width = Ube₃₂
 | QoiHeader~Height = Ube₃₂
-| QoiHeader~Channels = Ube₈
-| QoiHeader~Colorspace = Ube₈
+| QoiHeader~Channels = U₈
+| QoiHeader~Colorspace = U₈
 )
 QoiHeader 123 321 1 2
 Test‼QoiHeaderBin[113 111 105 102 0 0 0 123 0 0 1 65 1 2]
@@ -68,8 +71,8 @@ QoiHeaderBin ← B~MS!(
 | Just!(-@\0"qoif")
 | Width ← Ube₃₂
 | Height ← Ube₃₂
-| Channels ← Ube₈
-| Colorspace ← Ube₈
+| Channels ← U₈
+| Colorspace ← U₈
 )
 QoiHeader 123 321 1 2
 Test‼QoiHeaderBin[113 111 105 102 0 0 0 123 0 0 1 65 1 2]
@@ -138,14 +141,14 @@ B~FloatLe!B~FTy₁₆[252 0]
 B~FloatLe!B~FTy₃₂
 ⍤""=∩(⁅×10000000000000) ¯4.619999885559082
 
-{B~Var‼B~Ule₈B~C~InvTry!(
+{B~Var‼U₈B~C~InvTry!(
     B~VarEnt‼0 Ube₁₆
   | B~VarEnt‼1 Ule₁₆
   | B~VarFail
   )[0 0 2]}
 ⍤""≍{[] 0 2}
 
-{B~Var‼B~Ule₈B~C~InvTry!(
+{B~Var‼U₈B~C~InvTry!(
     B~VarEnt‼0 Ube₁₆
   | B~VarEnt‼1 Ule₁₆
   | B~VarFail
@@ -153,7 +156,7 @@ B~FloatLe!B~FTy₃₂
 ⍤""≍{[] 1 512}
 
 [] 1 512
-°B~Var‼B~Ule₈C~InvTry!(
+°B~Var‼U₈C~InvTry!(
   B~VarEnt‼0 Ube₁₆
 | B~VarEnt‼1 Ule₁₆
 | B~VarFail
@@ -162,7 +165,7 @@ B~FloatLe!B~FTy₃₂
 
 [1 0 2]
 ◌B~V!(
-  Ule₈
+  U₈
 | 0 => Ube₁₆
 | . => Ule₁₆
 )
@@ -170,7 +173,7 @@ B~FloatLe!B~FTy₃₂
 
 512
 °B~V!(
-  Ule₈
+  U₈
 | 0 => Ube₁₆
 | . => Ule₁₆
 )[]

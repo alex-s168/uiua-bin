@@ -30,6 +30,11 @@ UleConv! ↚ ⌅(
   ⊃(↘^0|ConvLe ↙^0)
 | ⊂↙^0 °ConvLe :)
 
+# Deprecated!
+#
+# This function is deprecated and will be removed in the future.
+#
+# **Use** `U,8` **instead!**
 Ule₈  ← UleConv!1
 Ule₁₆ ← UleConv!2
 Ule₂₄ ← UleConv!3
@@ -43,6 +48,11 @@ IleConv! ↚ ⌅(
   ⊃(↘^0|ConvNegLe!(×8^0)↙^0)
 | ⊂°ConvNegLe!(×8^0):)
 
+# Deprecated!
+#
+# This function is deprecated and will be removed in the future.
+#
+# **Use** `I,8` **instead!**
 Ile₈  ← IleConv!1
 Ile₁₆ ← IleConv!2
 Ile₂₄ ← IleConv!3
@@ -54,7 +64,12 @@ Ile₆₄ ← IleConv!8
 
 BeConv‼ ↚ ⌅(^1⍜(↙^0)⇌|⊂:⊙(⇌°^1[]))
 
-Ube₈  ← BeConv‼1Ule₈
+# Deprecated!
+#
+# This function is deprecated and will be removed in the future.
+#
+# **Use** `U,8` **instead!**
+Ube₈  ← UleConv!1
 Ube₁₆ ← BeConv‼2Ule₁₆
 Ube₂₄ ← BeConv‼3Ule₂₄
 Ube₃₂ ← BeConv‼4Ule₃₂
@@ -63,7 +78,12 @@ Ube₄₈ ← BeConv‼6Ule₄₈
 Ube₅₆ ← BeConv‼7Ule₅₆
 Ube₆₄ ← BeConv‼8Ule₆₄
 
-Ibe₈  ← BeConv‼1Ile₈
+# Deprecated!
+#
+# This function is deprecated and will be removed in the future.
+#
+# **Use** `I,8` **instead!**
+Ibe₈  ← IleConv!1
 Ibe₁₆ ← BeConv‼2Ile₁₆
 Ibe₂₄ ← BeConv‼3Ile₂₄
 Ibe₃₂ ← BeConv‼4Ile₃₂
@@ -72,8 +92,8 @@ Ibe₄₈ ← BeConv‼6Ile₄₈
 Ibe₅₆ ← BeConv‼7Ile₅₆
 Ibe₆₄ ← BeConv‼8Ile₆₄
 
-U₈ ← Ule₈
-I₈ ← Ile₈
+U₈ ← °˜⊂
+I₈ ← IleConv!1
 
 # null terminated byte array
 NullTerm ← ⌅(
