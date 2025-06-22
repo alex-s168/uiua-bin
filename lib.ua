@@ -9,22 +9,22 @@ Neg₂! ↚ ⧈°⋯¤¤8 ⬚0↙^0 IncBin ¬ ⬚0↙^0⋯
 
 ByteIsNeg ↚ ⬚0⊡7⋯
 ConvLe ↚ ⌅(
-  /+×⇌↙:⇌UleEnc₆₄⧻. rev
+  /+×⇌↙:⇌UleEnc₆₄⧻. ⇌
 | ⧈°⋯¤¤8 ⬚0↙64⋯)
 
-assert"" match[10 0 0 0 0 0 0 0] unConvLe 10
-assert"" match10 ConvLe[10 0 0 0 0 0 0 0]
+⍤"" ≍[10 0 0 0 0 0 0 0] °ConvLe 10
+⍤"" ≍10 ConvLe[10 0 0 0 0 0 0 0]
 
 # macro arg is **bit** size
 ConvNegLe! ↚ ⌅(
   ⨬(ConvLe
-  | ¯+1/+×⇌↙:⇌UleEnc₆₄⧻.≡(°⋯¬⬚0↙8⋯) rev
+  | ¯+1/+×⇌↙:⇌UleEnc₆₄⧻.≡(°⋯¬⬚0↙8⋯) ⇌
   )ByteIsNeg⊢.
 | ⨬(↙÷8^0°ConvLe)(Neg₂!^0⌵)<0.
 )
 
-assert"" match[10 0 0 0 0 0 0 0] unConvNegLe!(64) 10
-assert"" match10 ConvNegLe!(64)[10 0 0 0 0 0 0 0]
+⍤"" ≍[10 0 0 0 0 0 0 0] °ConvNegLe!(64) 10
+⍤"" ≍10 ConvNegLe!(64)[10 0 0 0 0 0 0 0]
 
 UleConv! ↚ ⌅(
   ⊃(↘^0|ConvLe ↙^0)
@@ -72,8 +72,8 @@ Ibe₄₈ ← BeConv‼6Ile₄₈
 Ibe₅₆ ← BeConv‼7Ile₅₆
 Ibe₆₄ ← BeConv‼8Ile₆₄
 
-U,8 = Ule,8
-I,8 = Ile,8
+U₈ ← Ule₈
+I₈ ← Ile₈
 
 # null terminated byte array
 NullTerm ← ⌅(
@@ -108,7 +108,7 @@ F‼ ← ⌅(
 
 # must match exactly the bytes from `^0`
 #
-# example: 
+# example:
 # ```uiua
 # B~Magic!(-@\0"png")
 # ```
@@ -120,9 +120,9 @@ Magic! ← ⌅(
 
 # a parser that does not encode / decode any bytes,
 # and instead just has the given value
-Just! = obv(
-  dip^0
-| dippop
+Just! ← ⌅(
+  ⊙^0
+| ⊙◌
 )
 
 # parse length-prefixed array.
@@ -147,11 +147,11 @@ Arr‼ ← ⌅(
 #
 # example:
 # ```uiua
-# F!! NArr!!4 Ule__8 
+# F!! NArr!!4 Ule__8
 # ```
-NArr!! = obv(
-  rep(dipbackjoin^1)^0 dip[]
-| dippop rep(un^1 dipfork(last|dropneg1))^0
+NArr‼ ← ⌅(
+  ⍥(⊙˜⊂^1)^0 ⊙[]
+| ⊙◌ ⍥(°^1 ⊙⊃(⊣|↘¯ 1))^0
 )
 
 Args! ↚^ ⊂"⊢⊢"⋅repr
@@ -345,4 +345,4 @@ Multi! ←^ (
 Ref! ← ⌅(⊙⊸^0|⊙°⊸^0)
 
 # parses nothing
-None = Magic![]
+None ← Magic![]
