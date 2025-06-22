@@ -193,13 +193,19 @@ ComposeGen ↚ |2 (
 # you probably don't need to use this directly
 Compose! ←^ ComposeGen
 
-# boxCode NewSignature ? boxCode Signature
+# TODO: move to cursed.ua
+SplitWithIndentNew‼! ↚ (
+  ⊜□¬×⊃(=0C~Indent‼^0^1|≡(/+=^2)|∘)
+)
+
+# boxCode NewSignature ? ctx boxCode Signature
 GenF ↚ (
-  °□
-  C~SplitWithIndent‼!@(@)@=
-  ⨬(⊙∘⊢
-  | □$"F!!((_)|(_))":°[⊙⊙] ⊙⍜⊡₁(-1)
-  )-1⧻.
+  ⊙(°□
+    SplitWithIndentNew‼!@(@)"=←")
+  □⨬(
+    ⊙∘⊢ ◌
+  | $"F!!((_)|(_(_)))":⊙(:°[⊙⊙] ⊙(+1⍜⊡₁(-1)))
+  )-1◡⋅⧻
 )
 
 # Helper to create a compound data parser.
@@ -234,9 +240,31 @@ GenF ↚ (
 # | QoiHeader~Colorspace = Ube₈
 # )
 # ```
+#
+# Also consider using `MS!`, for even cleaner code.
 M! ←^ $"MCtx!!((_)|(_))" ⊃(
   ⊢⊙◌
-| ComposeGen≡GenF ∩(↘1)
+| ComposeGen≡(GenF"") ∩(↘1)
+)
+
+# Read the documentation for `M!` first.
+#
+# Example:
+# ```uiua
+# |QoiHeader {Width Height Channels Colorspace}
+#
+# QoiHeaderBin ← B~MS!(
+#   QoiHeader
+# | Just!(-@\0"qoif")
+# | Width ← Ube₃₂
+# | Height ← Ube₃₂
+# | Channels ← Ube₈
+# | Colorspace ← Ube₈
+# )
+# ```
+MS! ←^ $"MCtx!!(Z!(_)|(_))" ⊃(
+  ⊢⊙◌
+| ComposeGen≡(GenF) ¤$"_!" ⊃(⊢⊙◌|∩(↘1))
 )
 
 # modify value after it is parsed.

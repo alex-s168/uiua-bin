@@ -63,6 +63,17 @@ QoiHeaderBin ← M!(
 QoiHeader 123 321 1 2
 Test‼QoiHeaderBin[113 111 105 102 0 0 0 123 0 0 1 65 1 2]
 
+QoiHeaderBin ← B~MS!(
+  QoiHeader
+| Just!(-@\0"qoif")
+| Width ← Ube₃₂
+| Height ← Ube₃₂
+| Channels ← Ube₈
+| Colorspace ← Ube₈
+)
+QoiHeader 123 321 1 2
+Test‼QoiHeaderBin[113 111 105 102 0 0 0 123 0 0 1 65 1 2]
+
 |Arr {Len Data}
 ArrBin ← M!(
   Z!Arr
