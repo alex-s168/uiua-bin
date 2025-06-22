@@ -227,3 +227,6 @@ Test‼B~SimpleN‼1∘ [5]
 
 [5]
 TestRem‼B~SimpleAll!∘ [5]
+
+[1 2 3]
+TestRem‼B~UntilEnd!Ube₁₆ [0 1 0 2 0 3]

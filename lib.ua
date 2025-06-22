@@ -228,6 +228,21 @@ NArr‼ ← ⌅(
 | ⊙◌ ⍥(°^1 ⊙⊃(⊣|↘¯ 1))^0
 )
 
+# applies the given parser (to generate an array) until no more bytes are left
+UntilEnd! ← ⌅(
+  []
+  # Arr Bytes ...
+  ⍢(⊙^0
+    # Arr RemBytes Val ...
+    ⊂⊙:
+  | >0⋅⧻
+  )
+  :
+| :
+  # Arr Bytes ...
+  ∧(°^0:)⇌
+)
+
 Args! ↚^ ⊂"⊢⊢"⋅repr
 
 # zero-initialize struct `^0`
