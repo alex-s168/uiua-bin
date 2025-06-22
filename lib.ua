@@ -389,37 +389,6 @@ EmitV ↚ $"⌅(_|_)" ⊃($"(_):(_)"|$"°(_):°(_)":) C~EmitInvTry ⊂:≡⍚$"_
 # It uses [cursed.ua](https://github.com/alex-s168/cursed-ua) for parsing the match arms
 V! ←^ EmitV
 
-# Run a parser which generates multiple outputs, and binds those to a struct
-#
-# This is useful in certain situations,
-# but when you don't have other alternatives to using this,
-# most of the time, you should refactor your code instead
-#
-# Example:
-# ```uiua
-# Multi!(
-#   Var‼Ule₈InvTry!(
-#     VarEnt‼0 Ule₁₆
-#   | VarEnt‼1 Ube₁₆
-#   | VarFail)
-# | TestTy~Variant | TestTy~Data)
-# ```
-Multi! ←^ (
-  ⊃(↘1)⊢ # => TOP BindAddrs Parser BOT
-
-  ⊃( # bind
-    $"dippop(_)"°□/⍚⊂ ≡⍚$"⊙⟜(⍜(_)◌:°□⊡(_))":⇡⧻.
-    # apply parser
-    $"(_) °□⊃⊢(↘1){_}"
-  | # code for inverse
-    °□/⍚$"_|_"
-    $"⊙⊸⊃(_)"
-    $"un(_) (_)":
-  )
-
-  $"obv((_)|(_))"
-)
-
 # A parser that returns the value from the struct field,
 # (or sets the value from the struct field in encode)
 #
