@@ -1,4 +1,6 @@
-B ~ "lib.ua" ~ Arr‼ CStr₈ F‼ Just! M! Map‼ NArr‼ PadB‼ Ube₃₂ Ule₁₆ Ule₃₂ U₈ Z!
+B ~ "lib.ua" ~ Arr‼ CStr₈ F‼ Just! M! Map‼ NArr‼ PadB‼ Ube₃₂ Ule₁₆ Ule₃₂ U₈
+
+C ~ "git: github.com/alex-s168/cursed-ua"
 
 AssertMatch! ← ⍤$"Error: _\nExpected: _\nGot: _"^0 ⊃(∩pretty|≍)
 
@@ -53,7 +55,7 @@ Test‼B~Ibe₁₆ [255 246]
 
 |QoiHeader {Width Height Channels Colorspace}
 QoiHeaderBin ← M!(
-  Z!QoiHeader
+  C~Z!QoiHeader
 | Just!(-@\0"qoif")
 | F‼Ube₃₂ QoiHeader~Width
 | F‼Ube₃₂ QoiHeader~Height
@@ -64,7 +66,7 @@ QoiHeader 123 321 1 2
 Test‼QoiHeaderBin[113 111 105 102 0 0 0 123 0 0 1 65 1 2]
 
 QoiHeaderBin ← M!(
-  Z!QoiHeader
+  C~Z!QoiHeader
 | Just!(-@\0"qoif")
 | QoiHeader~Width = Ube₃₂
 | QoiHeader~Height = Ube₃₂
@@ -87,7 +89,7 @@ Test‼QoiHeaderBin[113 111 105 102 0 0 0 123 0 0 1 65 1 2]
 
 |Arr {Len Data}
 ArrBin ← M!(
-  Z!Arr
+  C~Z!Arr
 | F‼Ube₁₆ Arr~Len
 | F‼Arr‼B~Ref!Arr~Len Ube₁₆ Arr~Data
 )
@@ -111,43 +113,6 @@ Test‼Map‼(-1)Ube₁₆ [0 11]
 
 {"Hello" "World"}
 Test‼Arr‼Ube₁₆ Map‼□ CStr₈ [0 2 72 101 108 108 111 0 87 111 114 108 100 0]
-
-B~FloatLe!B~FTy₁₆[53 85]
-⍤""=∩(⁅×1000000000000) 0.333251953125
-
-B~FloatLe!B~FTy₁₆[0 1]
-⍤""=∩(⁅×1000000000000) 0.000000059604645
-
-B~FloatLe!B~FTy₁₆[3 255]
-⍤""=∩(⁅×1000000000000) 0.000060975552
-
-B~FloatLe!B~FTy₁₆[4 0]
-⍤""=∩(⁅×1000000000000) 0.00006103515625
-
-B~FloatLe!B~FTy₁₆[59 255]
-⍤""=∩(⁅×10000000) 0.99951172
-
-B~FloatLe!B~FTy₁₆[60 0]
-⍤""=1
-
-B~FloatLe!B~FTy₁₆[60 1]
-⍤""=∩(⁅×10000000)1.00097656
-
-B~FloatLe!B~FTy₁₆[123 255]
-⍤""=65504
-
-B~FloatLe!B~FTy₁₆[124 0]
-⍤""=∞
-
-B~FloatLe!B~FTy₁₆[128 0]
-⍤""=¯0
-
-B~FloatLe!B~FTy₁₆[252 0]
-⍤""=¯∞
-
-⧈(°⋯⇌)¤¤8 -@0"11000000100100111101011100001010"
-B~FloatLe!B~FTy₃₂
-⍤""=∩(⁅×10000000000000) ¯4.619999885559082
 
 {B~Var‼U₈B~C~InvTry!(
     B~VarEnt‼0 Ube₁₆
