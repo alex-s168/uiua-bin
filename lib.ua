@@ -1,4 +1,54 @@
-C ~ "git: github.com/alex-s168/cursed-ua"
+# !doc
+# Extensive binary (de-) serialization framework
+#
+# ## Overview
+# Normal parsers have a signature of:
+# `RemainingBytes Value ? Bytes`
+#
+# There are also "stateful" parsers, that have a signatue of:
+# `RemainingBytes Value State ? Bytes State`
+#
+# All parsers should have a un-inverse.
+#
+# All parsers that contain inner parsers should accept stateful parsers.
+#
+# ## Getting started:
+# ```uiua
+# B ~ "git: github.com/alex-s168/uiua-bin"
+#
+# ~QoiHeader[Width Height Channels Colorspace]
+#
+# QoiHeaderBin ← B~MS‼(
+#   QoiHeader
+# | B~Just!(-@0"qoif")
+# | Width = B~Ube₃₂
+# | Height = B~Ube₃₂
+# | Channels = B~Ube₈
+# | Colorspace = B~Ube₈
+# )
+#
+# QoiHeader 123 321 1 2
+# °QoiHeaderBin[]
+# # [113 111 105 102 0 0 0 123 0 0 1 65 1 2]
+#
+# # pop is used to remove remaining bytes of parser
+# ◌QoiHeaderBin
+# ```
+#
+# ## `NoInv!`
+# When writing serializers for variants, and som variant cases only support de-serialization,
+# you might want to use `NoInv! F` to get a runtime error when the inverse is called, instead of a compile time error.
+#
+# ## modifying binary data
+# Uiua provides the "under" modifier, which can be used for this:
+# ```uiua
+# [113 111 105 102 123 0 0 0 65 1 0 0 1 2]
+# # reduce "Width" in "QoiHeader" by 10
+# ⍜(QoiHeader~Width◌QoiHeaderBin)(-10)
+# ## [113 111 105 102 113 0 0 0 65 1 0 0 1 2]
+# ```
+
+C ≁ "git: github.com/alex-s168/cursed-ua"
 
 UleEnc₆₄ ↚ comptime(⇌≡ⁿ×8⇡8 2)
 
