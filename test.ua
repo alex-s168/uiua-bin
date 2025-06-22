@@ -1,4 +1,4 @@
-B ~ "lib.ua" ~ Arr‼ CStr₈ F‼ Magic! Map‼ M‼ NArr‼ PadB‼ Ube₃₂ Ube₈ Ule₁₆ Ule₃₂ Z!
+B ~ "lib.ua" ~ Arr‼ CStr₈ F‼ Just! M! Map‼ NArr‼ PadB‼ Ube₃₂ Ube₈ Ule₁₆ Ule₃₂ Z!
 
 AssertMatch! ← ⍤$"Error: _\nExpected: _\nGot: _"^0 ⊃(∩pretty|≍)
 
@@ -11,10 +11,10 @@ Test‼ ← ⊃(
 )
 
 [113 111 105 102]
-Test‼B~Just!(-@\0"qoif") [113 111 105 102]
+Test‼Just!(-@\0"qoif") [113 111 105 102]
 
-°[] B~Compose!(B~Just![5]) [5]
-°[5] °B~Compose!(B~Just![5]) []
+°[] B~Compose!(Just![5]) [5]
+°[5] °B~Compose!(Just![5]) []
 
 10
 Test‼B~Ile₁₆ [10 0]
@@ -40,23 +40,10 @@ Test‼B~Ile₁₆ [246 255]
 ¯10
 Test‼B~Ibe₁₆ [255 246]
 
-°[3 4] Magic![1 2] [1 2 3 4]
-°[1 2 3 4] °Magic![1 2] [3 4]
-
 |QoiHeader {Width Height Channels Colorspace}
-QoiHeaderBin ← M‼Z!QoiHeader(
-  Magic!(-@\0"qoif")
-  F‼Ube₃₂ QoiHeader~Width
-  F‼Ube₃₂ QoiHeader~Height
-  F‼Ube₈ QoiHeader~Channels
-  F‼Ube₈ QoiHeader~Colorspace
-)
-QoiHeader 123 321 1 2
-Test‼QoiHeaderBin[113 111 105 102 0 0 0 123 0 0 1 65 1 2]
-
-|QoiHeader {Width Height Channels Colorspace}
-QoiHeaderBin ← M‼Z!QoiHeader B~Compose!(
-  Just!(-@\0"qoif")
+QoiHeaderBin ← M!(
+  Z!QoiHeader
+| Just!(-@\0"qoif")
 | F‼Ube₃₂ QoiHeader~Width
 | F‼Ube₃₂ QoiHeader~Height
 | F‼Ube₈ QoiHeader~Channels
@@ -66,9 +53,10 @@ QoiHeader 123 321 1 2
 Test‼QoiHeaderBin[113 111 105 102 0 0 0 123 0 0 1 65 1 2]
 
 |Arr {Len Data}
-ArrBin ← M‼Z!Arr(
-  F‼Ube₁₆ Arr~Len
-  F‼Arr‼B~Ref!Arr~Len Ube₁₆ Arr~Data
+ArrBin ← M!(
+  Z!Arr
+| F‼Ube₁₆ Arr~Len
+| F‼Arr‼B~Ref!Arr~Len Ube₁₆ Arr~Data
 )
 Arr 3 [1 2 3]
 Test‼ArrBin[0 3 0 1 0 2 0 3]
@@ -189,10 +177,11 @@ B~V!(
 
 [1 5]
 Test‼(
-  B~M‼[0 0](
-    B~F‼B~Ule₁₆ ⊡₀
-    B~Magic![69]
-    B~F‼B~V!(
+  B~M!(
+    [0 0]
+  | B~F‼B~Ule₁₆ ⊡₀
+  | Just![69]
+  | B~F‼B~V!(
       B~Ref!⊡₀
     | 1 => Ube₁₆
     | 2 => Ule₁₆

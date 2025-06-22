@@ -106,19 +106,12 @@ F‼ ← ⌅(
   ⊙(⍜^1(∘◌):)^0
 | °^0⊙⊸^1)
 
-# must match exactly the bytes from `^0`
+# a parser that encodes / matches and returns ^0
 #
 # example:
 # ```uiua
-# B~Magic!(-@\0"png")
+# Just!(-@\0"png")
 # ```
-#
-# RemainingBytes ? MagicSeq Bytes
-Magic! ← ⌅(
-  ⍤"magic mismatch"≍^0 ⊃↙↘⧻^0
-| ⊂^0)
-
-# a parser that encodes and returns ^0
 Just! ← ⌅(
   ⊙^0⍤"magic mismatch"≍^0 ⊃↙↘⧻^0
 | ⊂^0 ⊙◌)
@@ -170,28 +163,56 @@ Args! ↚^ ⊂"⊢⊢"⋅repr
 # zero-initialize struct `^0`
 Z! ← °[°^0] ↯⊙0 Args!^0
 
-# Helper to create a struct parser.
+# Helper to create a compound data parser.
+#
+# YOU PROBABLY DON'T WANT TO USE THIS DIRECTLY.
+# USE `M!` INSTEAD
 #
 # Example:
 # ```uiua
-# HeaderBin = M!!Z!Header(
+# HeaderBin = MCtx!!Z!Header(
 #   F!!Ube,32 Header~Abc
 # )
 # ```
 #
 # This can also be used to parse tuples:
 # ```uiua
-# Test = M!![0 0](
+# Test = MCtx!![0 0](
 #   F!!Ube,32 pick,0
 #   F!!Ube,32 pick,1
 # )
 # ```
 #
 # StructParser ? ZeroInit FieldSerial
-M‼ ← ⌅(^1⊙^0|⊙◌°^1)
+MCtx‼ ← ⌅(^1⊙^0|⊙◌°^1)
+
+ComposeGen ↚ |2 (
+  /⍚$"_\n_"≡(□⨬(∘|$"obv(dippop (_)|un(_)dip[])".) =+1°⊟:°□)
+)
 
 # you probably don't need to use this directly
-Compose! ←^ /⍚$"_\n_"≡(□⨬(∘|$"obv(dippop (_)|un(_)dip[])".) =+1°⊟:°□)
+Compose! ←^ ComposeGen
+
+# Helper to create a compound data parser.
+#
+# Example:
+# ```uiua
+# HeaderBin = M!(Z!Header
+# | F!!Ube,32 Header~Abc
+# )
+# ```
+#
+# This can also be used to parse tuples:
+# ```uiua
+# Test = M!([0 0]
+# | F!!Ube,32 pick,0
+# | F!!Ube,32 pick,1
+# )
+# ```
+M! ←^ $"MCtx!!((_)|(_))" ⊃(
+  ⊢⊙◌
+| ComposeGen ∩(↘1)
+)
 
 # modify value after it is parsed.
 # also works with un by modifying the value before it is encoded.
@@ -364,4 +385,4 @@ Multi! ←^ (
 Ref! ← ⌅(⊙⊸^0|⊙°⊸^0)
 
 # parses nothing
-None ← Magic![]
+None ← Just![]
