@@ -8,5 +8,5 @@ You should depend on a fixed version of this module, instead of the latest, beca
 
 On GitHub, you can see the latest version. Put that into here:
 ```
-B ~ "git: github.com/alex-s168/uiua-bin branch:v0.4.6"
+B ~ "git: github.com/alex-s168/uiua-bin branch:v0.5.0"
 ```
