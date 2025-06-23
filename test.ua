@@ -1,4 +1,4 @@
-B ~ "lib.ua" ~ Arr‼ CStr₈ F‼ Just! M! Map‼ NArr‼ PadB‼ Ube₃₂ Ule₁₆ Ule₃₂ U₈
+B ~ "lib.ua" ~ Arr‼ CStr₈ F‼ Just! M! Map‼ NArr‼ PadR‼ Ube₃₂ Ule₁₆ Ule₃₂ U₈
 
 C ~ "git: github.com/alex-s168/cursed-ua"
 
@@ -6,9 +6,9 @@ AssertMatch! ← ⍤$"Error: _\nExpected: _\nGot: _"^0 ⊃(∩pretty|≍)
 
 # ? Parser Bytes Value
 Test‼ ← ⊃(
-  AssertMatch!"encode" ⊂^1[69 2 3] °^0 [69 2 3]
-| ^0 ⊂^1[69 2 3]
-  AssertMatch!"decode: remaining bytes" [69 2 3]
+  AssertMatch!"encode" ⊂^1[1 1 0 1] °^0 [1 1 0 1]
+| ^0 ⊂^1[1 1 0 1]
+  AssertMatch!"decode: remaining bytes" [1 1 0 1]
   AssertMatch!"decode: value"
 )
 
@@ -103,7 +103,7 @@ Test‼Arr‼Ube₃₂ Ube₁₆[0 0 0 3 0 1 0 2 0 3]
 Test‼NArr‼3 Ube₁₆ [0 1 0 2 0 3]
 
 [1 2 3]
-Test‼PadB‼12 Arr‼Ube₃₂ Ube₁₆[0 0 0 3 0 1 0 2 0 3 0 0]
+Test‼PadR‼12 Arr‼Ube₃₂ Ube₁₆[0 0 0 3 0 1 0 2 0 3 0 0]
 
 "Hello"
 Test‼CStr₈ [72 101 108 108 111 0]
@@ -198,3 +198,12 @@ TestRem‼B~UntilEnd!Ube₁₆ [0 1 0 2 0 3]
 
 [1 2 3]
 Test‼B~Sub‼6 B~UntilEnd!Ube₁₆ [0 1 0 2 0 3]
+
+5
+Test‼B~Bit~Ube!4 [0 1 0 1]
+
+5819
+Test‼B~Bit~Ube!14 [0 1 0 1 1 0 1 0 1 1 1 0 1 1]
+
+5799
+Test‼B~Bits!B~Bit~Ube!16 [22 167]

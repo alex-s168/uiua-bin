@@ -1,23 +1,23 @@
 # !doc
 # Extensive binary (de-) serialization framework
-# 
+#
 # ## Overview
 # Normal parsers have a signature of:
 # `RemainingBytes Value ? Bytes`
-# 
+#
 # There are also "stateful" parsers, that have a signatue of:
 # `RemainingBytes Value State ? Bytes State`
-# 
+#
 # All parsers should have a un-inverse.
-# 
+#
 # All parsers that contain inner parsers should accept stateful parsers.
-# 
+#
 # ## Getting started:
 # ```uiua
 # B ~ "git: github.com/alex-s168/uiua-bin"
-# 
+#
 # ~QoiHeader[Width Height Channels Colorspace]
-# 
+#
 # QoiHeaderBin ← B~MS‼(
 #   QoiHeader
 # | B~Just!(-@0"qoif")
@@ -26,19 +26,19 @@
 # | Channels = B~Ube₈
 # | Colorspace = B~Ube₈
 # )
-# 
+#
 # QoiHeader 123 321 1 2
 # °QoiHeaderBin[]
 # # [113 111 105 102 0 0 0 123 0 0 1 65 1 2]
-# 
+#
 # # pop is used to remove remaining bytes of parser
 # ◌QoiHeaderBin
 # ```
-# 
+#
 # ## `NoInv!`
 # When writing serializers for variants, and som variant cases only support de-serialization,
 # you might want to use `NoInv! F` to get a runtime error when the inverse is called, instead of a compile time error.
-# 
+#
 # ## modifying binary data
 # Uiua provides the "under" modifier, which can be used for this:
 # ```uiua
@@ -47,16 +47,75 @@
 # ⍜(QoiHeader~Width◌QoiHeaderBin)(-10)
 # ## [113 111 105 102 113 0 0 0 65 1 0 0 1 2]
 # ```
-# 
+#
 # ## Performance
 # The performance of most things is quite good, because array slicing (take and drop) is zero-cost.
-# 
+#
 # Bit parsers however convert all bytes to bits first, and then convert the remaining bits back to bytes.
 # This is a issue when you have lots of data.
 # Because of this, consider using `Sub!!`
 
 C ≁ "git: github.com/alex-s168/cursed-ua"
 Float ~ "float.ua"
+
+PadL! ↚ ⨬(◌|⊂ ˜↯0 ˜-^0)>0.◿^0⊸⧻
+
+PadL!4 [1 1 0 1 0]
+⍤""≍ [0 0 0 1 1 0 1 0]
+
+PadL!4 [1 0 1 0]
+⍤""≍ [1 0 1 0]
+
+# Runs the given parser in a bit context.
+#
+# This means that it will input and output bits instead of bytes
+#
+# Converts all input bytes to bits, applies the parser,
+# and then converts the remaining bits back to bytes.
+#
+# for performance reasons, consider limiting the resulting parser using `Sub!`
+#
+# inside a struct context, consider using this with `Compose!`
+Bits! ← ⌅(
+  ♭≡(⇌⋯₈)   # convert to bits
+  ^0        # apply parser
+  PadL!8    # pad left to multiple of 8 bits
+  ⧈(°⋯⇌)¤¤8 # convert back to bytes
+| ˜⊂⊙(
+    °^0[]
+    PadL!8    # pad left to multiple of 8 bits
+    ⧈(°⋯⇌)¤¤8 # convert to bytes
+  )
+)
+
+# Parsers that only work inside a bit context.
+#
+# See `Bits!`
+┌─╴Bit
+  # unsigned integer
+  #
+  # argument is the number of bits
+  #
+  # Example:
+  # ```uiua
+  # |Header {Width Height Channels Colorspace}
+  #
+  # HeaderBin ← MS!(
+  #   Header
+  # | Just!(-@\0"megic")
+  # | Width = Ube₃₂
+  # | Height = Ube₃₂
+  # | Sub!!1 Bits! Compose!(
+  #   | Channels = Bit~Ube!4
+  #   | Colorspace = Bit~Ube!4
+  #   )
+  # )
+  # ```
+  Ube! ← ⌅(
+    ⊃(↘^0|°⋯⇌↙^0)
+  | ˜⊂⊙(⇌ ⬚0↙^0 ⋯)
+  )
+└─╴
 
 UleEnc₆₄ ↚ comptime(⇌≡ⁿ×8⇡8 2)
 
@@ -173,7 +232,7 @@ Len!   ← -:⊙⊸⧻⊙^0⧻.
 UnLen! ← ¯Len!°^0
 
 # pad output of parser `^1` to `^0` bytes with trailing zeros
-PadB‼ ← ⌅(
+PadR‼ ← ⌅(
   ↘-:^0 Len!^1
 | ⊂:⊂↯:0-:^0 :⊙(UnLen!^1[]))
 
